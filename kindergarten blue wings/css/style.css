@@ -1,6 +1,6 @@
 /********** Template CSS **********/
 :root {
-    --primary: #A5FC23;
+    --primary: #ff70bc;
     --light: #FFF5F3;
     --dark: #103741;
 }
@@ -33,6 +33,7 @@
 .btn {
     font-weight: 500;
     transition: .5s;
+    background-color: #ff70bc;
 }
 
 .btn.btn-primary {
@@ -81,6 +82,7 @@ h4,
 .display-4,
 .display-5,
 .display-6 {
+    color: var(--primary);
     font-family: 'Lobster Two', cursive;
     font-weight: 700;
 }
@@ -89,6 +91,7 @@ h5,
 h6,
 .h5,
 .h6 {
+    color: var(--primary);
     font-weight: 600;
 }
 
@@ -172,7 +175,6 @@ h6,
     height: 10px;
     top: 0;
     left: 0;
-    background: url(../img/bg-header-top.png) center center repeat-x;
     z-index: 1;
 }
 
@@ -181,7 +183,6 @@ h6,
     height: 19px;
     top: auto;
     bottom: 0;
-    background: url(../img/bg-header-bottom.png) center center repeat-x;
 }
 
 @media (max-width: 768px) {
@@ -240,7 +241,7 @@ h6,
 }
 
 .page-header {
-    background: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), url(../img/carousel-1.jpg) center center no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), url(../imgg/6.avif) center center no-repeat;
     background-size: cover;
 }
 
