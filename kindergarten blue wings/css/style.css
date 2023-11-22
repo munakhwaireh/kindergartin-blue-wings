@@ -33,7 +33,7 @@
 .btn {
     font-weight: 500;
     transition: .5s;
-    background-color: #ff70bc;
+    background-color: #d63384;
 }
 
 .btn.btn-primary {
@@ -133,7 +133,7 @@ h6,
 }
 
 @media (max-width: 991.98px) {
-    .navbar .navbar-nav .nav-link  {
+    .navbar .navbar-nav .nav-link {
         margin-right: 0;
         padding: 10px 0;
     }
@@ -152,7 +152,7 @@ h6,
         opacity: 0;
         visibility: hidden;
         transition: .5s;
-        
+
     }
 
     .navbar .nav-item:hover .dropdown-menu {
@@ -190,7 +190,7 @@ h6,
         position: relative;
         min-height: 500px;
     }
-    
+
     .header-carousel .owl-carousel-item img {
         position: absolute;
         width: 100%;
@@ -438,14 +438,14 @@ h6,
     align-items: center;
     justify-content: center;
     color: #FFFFFF;
-    border: 1px solid rgba(255,255,255,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 45px;
     transition: .3s;
 }
 
 .footer .btn.btn-social:hover {
     border-color: var(--primary);
-    background: var(--primary);
+    background: #d63384;
 }
 
 .footer .btn.btn-link {
@@ -474,7 +474,7 @@ h6,
 }
 
 .footer .form-control {
-    border-color: rgba(255,255,255,0.5);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .footer .copyright {
