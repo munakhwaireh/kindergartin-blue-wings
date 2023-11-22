@@ -358,7 +358,8 @@ h6,
 
 /*** Team ***/
 .team-item .team-text {
-    margin-left: 50px;
+    /*margin-left: 50px;*/
+    position: absolute;
     width: 250px;
     height: 250px;
     bottom: 0;
