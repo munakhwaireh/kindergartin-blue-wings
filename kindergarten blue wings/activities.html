@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Blue Wings Kindergarten</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@600&family=Lobster+Two:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+<!--    <link href="css/bootstrap.css" rel="stylesheet">-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+    <!-- Include FullCalendar CSS and Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI/tTQOyHgj1r2oF6acM1RV6ZoeA6qF+P1ljk2NA=" crossorigin="anonymous"></script>
+    <!-- Include FullCalendar JavaScript and Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha256-fN6Hpe+rBBt4gZVs4KN4iO+Zas7OiP2GrtrqMV/jx4Y=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.2/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.2/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.10.2/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@5.10.2/main.min.js"></script>
+
+
+
+
+
+
+    <style>
+
+        #calendar {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .day {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Additional Bootstrap Styles */
+        .mt-4 {
+            margin-top: 1.5rem !important;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container-xxl bg-white p-0">
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
+        <a href="index.html" class="navbar-brand">
+            <h1 class="m-0 text-primary"><i class="fa fa-book-reader me-3"></i>Blue Wings Kindergarten</h1>
+        </a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav mx-auto">
+                <a href="index.html" class="nav-item nav-link">Home</a>
+                <a href="about.html" class="nav-item nav-link">About Us</a>
+                <a href="classes.html" class="nav-item nav-link">Classes</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
+                    <div class="dropdown-menu rounded-0 rounded-bottom border-0 shadow-sm m-0">
+                        <a href="facility.html" class="dropdown-item">School Facilities</a>
+                        <a href="team.html" class="dropdown-item">Popular Teachers</a>
+                        <a href="call-to-action.html" class="dropdown-item">Become A Teachers</a>
+                        <a href="appointment.html" class="dropdown-item">Make Appointment</a>
+                        <a href="testimonial.html" class="dropdown-item active">Testimonial</a>
+                    </div>
+                </div>
+                <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+            </div>
+            <a href="" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Join Us<i class="fa fa-arrow-right ms-3"></i></a>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+
+    <!-- Activities Section -->
+    <section class="container mt-5">
+        <div class="row justify-content-center">
+            <!-- Part 1: Add Activity Form -->
+            <div class="col-md-6 mb-4">
+                <h2>Add Activity</h2>
+                <form id="addActivityForm">
+                    <div class="mb-3">
+                        <label for="activityName" class="form-label">Activity Name</label>
+                        <input type="text" class="form-control" id="activityName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="activityDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="activityDescription" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileUpload" class="form-label">Upload File (Image/Video)</label>
+                        <input type="file" class="form-control" id="fileUpload">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addActivity()">Add Activity</button>
+                </form>
+            </div>
+
+            <!-- Part 2: Show Activities -->
+
+            <div class="activity-card card">
+                <img src="img/fcnpajbi.png" alt="Outdoor Adventure" class="card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">Outdoor Adventure</h3>
+                    <p class="card-text">
+                        Enjoy the great outdoors with our exciting outdoor adventure activity. Let the kids explore
+                        nature, learn about different plants and animals, and have a fun-filled day of exploration.
+                    </p>
+                    <!-- Add more details or buttons as needed -->
+                </div>
+            </div>
+
+
+<!--             Part 3: Calendar-->
+            <h2 class="text-center mt-4">Weekly Activities Calendar</h2>
+<!--            <div class="calendar">-->
+                <!-- Day 1 -->
+<!--                <div class="day border">-->
+<!--                    <h5 class="mb-3">Monday</h5>-->
+<!--                    <p>Activity 1</p>-->
+<!--                    <div class="btn-group" role="group">-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+
+                <!-- Day 2 -->
+<!--                <div class="day border">-->
+<!--                    <h5 class="mb-3">Tuesday</h5>-->
+<!--                    <p>Activity 2</p>-->
+<!--                    <div class="btn-group" role="group">-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Day 3 &ndash;&gt;-->
+<!--                <div class="day border">-->
+<!--                    <h5 class="mb-3">Tuesday</h5>-->
+<!--                    <p>Activity 2</p>-->
+<!--                    <div class="btn-group" role="group">-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Day 4 &ndash;&gt;-->
+<!--                <div class="day border">-->
+<!--                    <h5 class="mb-3">Tuesday</h5>-->
+<!--                    <p>Activity 2</p>-->
+<!--                    <div class="btn-group" role="group">-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Day 5 &ndash;&gt;-->
+<!--                <div class="day border">-->
+<!--                    <h5 class="mb-3">Tuesday</h5>-->
+<!--                    <p>Activity 2</p>-->
+<!--                    <div class="btn-group" role="group">-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <!-- Day 6 -->
+<!--                <div class="day border">-->
+<!--                    <h5 class="mb-3">Tuesday</h5>-->
+<!--                    <p>Activity 2</p>-->
+<!--                    <div class="btn-group" role="group">-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <!-- Day 7 -->
+<!--                <div class="day border">-->
+<!--                    <h5 class="mb-3">Tuesday</h5>-->
+<!--                    <p>Activity 2</p>-->
+<!--                    <div class="btn-group" role="group">-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>-->
+<!--                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--             Calendar Container-->
+            <div id="calendar"></div>
+<!--            </div>-->
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="text-white mb-4">Get In Touch</h3>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Rafedia Street, Nablus, Palestine</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+970 59-5678903</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>bluewings@example.com</p>
+                    <div class="d-flex pt-2">
+
+                        <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="text-white mb-4">Quick Links</h3>
+                    <a class="btn btn-link text-white-50" href="about.html">About Us</a>
+                    <a class="btn btn-link text-white-50" href="contact.html">Contact Us</a>
+                    <a class="btn btn-link text-white-50" href="">Our Services</a>
+                    <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
+                    <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="text-white mb-4">Photo Gallery</h3>
+                    <div class="row g-2 pt-2">
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-1.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-3.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-4.png" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-5.png" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-6.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="text-white mb-4">Newsletter</h3>
+                    <p>Didn't you join us until now !!! hurry up and enjoy :)</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">2023 Kindergarten blue Wings</a>,All Right Reserved.
+
+                        <!-- Designed By <a class="border-bottom" >Muna & Lama</a> -->
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-menu">
+                            <a href="index.html">Home</a>
+                            <a href="about.html">about</a>
+                            <a href="contact.html">contact</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/wow/wow.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+<script>
+    // Placeholder function for adding activity (to be implemented)
+    function addActivity() {
+        var activityName = document.getElementById('activityName').value;
+        var activityDescription = document.getElementById('activityDescription').value;
+        var fileUpload = document.getElementById('fileUpload').files[0];
+
+        // Perform validation or additional processing as needed
+
+        // Display details in alert (replace with actual implementation)
+        alert('Activity Name: ' + activityName + '\nDescription: ' + activityDescription + '\nFile: ' + (fileUpload ? fileUpload.name : 'None'));
+    }
+
+    // Placeholder function for deleting activity (to be implemented)
+    function deleteActivity() {
+        alert('Activity deleted. (Not implemented)');
+    }
+
+    // Placeholder function for updating activity (to be implemented)
+    function updateActivity() {
+        alert('Activity updated. (Not implemented)');
+    }
+
+    // Placeholder function for adding calendar event (to be implemented)
+    function addCalendarEvent() {
+        alert('Calendar event added. (Not implemented)');
+    }
+
+    // Placeholder function for deleting calendar event (to be implemented)
+    function deleteCalendarEvent() {
+        alert('Calendar event deleted. (Not implemented)');
+    }
+
+    // Placeholder function for updating calendar event (to be implemented)
+    function updateCalendarEvent() {
+        alert('Calendar event updated. (Not implemented)');
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        // Dummy events for illustration
+        var events = [
+            {
+                title: 'Activity 1',
+                start: '2023-12-23T10:00:00',
+                end: '2023-12-23T12:00:00'
+            },
+            {
+                title: 'Activity 2',
+                start: '2023-12-24T14:00:00',
+                end: '2023-12-24T16:00:00'
+            }
+        ];
+
+        // Initialize FullCalendar
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: events
+        });
+    });
+
+</script>
+</body>
+
+</html>
