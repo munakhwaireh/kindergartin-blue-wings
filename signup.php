@@ -1,3 +1,40 @@
+
+
+<?php
+    // Include the database connection file
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include('connect.php');
+global $conn;
+    session_start();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['signup'])) {
+            // Handle sign-up form submission
+            $name = mysqli_real_escape_string($conn, $_POST['name']);
+            $email = mysqli_real_escape_string($conn, $_POST['email-signup']);
+            $password = md5($_POST['password-signup']);
+
+            $select = " SELECT * FROM  `parent` WHERE email = '$email' && password = '$password' ";
+
+            $result = mysqli_query($conn, $select);
+
+            if (mysqli_num_rows($result) > 0) {
+
+                $error[] = 'user already exist!';
+
+            } else {
+                $insert = "INSERT INTO parent(name, email, password) VALUES('$name','$email','$password')";
+                mysqli_query($conn, $insert);
+                header('location:index.html');
+            }
+
+
+        };
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,25 +87,28 @@
             </form>
 
             <!-- Sign Up Form (Initially Hidden) -->
-            <form class="border rounded p-4 bg-white d-none" id="signup-form">
+            <form class="border rounded p-4 bg-white d-none" id="signup-form" method="post" action="signup.php">
                 <h2 class="text-center mb-4">Sign Up</h2>
+
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" required>
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
                 <div class="mb-3">
                     <label for="email-signup" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email-signup" required>
+                    <input type="email" class="form-control" id="email-signup" name="email-signup" required>
                 </div>
                 <div class="mb-3">
                     <label for="password-signup" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password-signup" required>
+                    <input type="password" class="form-control" id="password-signup" name="password-signup" required>
                 </div>
-                <button type="submit" class="btn btn-pink w-100" href="#">Sign Up</button>
+                <button type="submit" class="btn btn-pink w-100" href="#" >Sign Up</button>
+
                 <p class="text-center mt-3">
                     <a href="#" class="text-primary" id="signin-link">Already have an account? Sign in</a>
                 </p>
             </form>
+
 
             <!-- Forgot Password Form (Initially Hidden) -->
             <form class="border rounded p-4 bg-white d-none" id="forgot-form">
@@ -87,7 +127,7 @@
 
 <script src="js/main.js"></script>
 <script>
-        
+
 
     document.getElementById('signup-link').addEventListener('click', function () {
         document.getElementById('signin-form').classList.toggle('d-none');

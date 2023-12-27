@@ -11,6 +11,7 @@
     <!-- Favicon -->
     <!--  <link href="img/favicon.ico" rel="icon"> -->
 
+
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,14 +26,20 @@
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
+    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/guardian.css" rel="stylesheet">
+    <link href="css/guardChild.css" rel="stylesheet">
 
 
+
+    <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
-
 <body>
+
+
+
 <div class="container-xxl bg-white p-0">
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -68,81 +75,74 @@
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact Us</a>
             </div>
-            <a href="signUp.html" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Join Us<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="signup.php" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
 
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
 
-                <!-- Book List -->
-                <div id="bookList" class="row row-cols-1 row-cols-md-3 g-3">
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/fairy-tales-jack-and-the-beanstalk.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Sample Book</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 3-5 years</p>
-                                <p class="card-text book-info text-success">Type: Story</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Additional book cards go here -->
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/fairy-tales-jack-and-the-beanstalk.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Cinderella</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 4-8 years</p>
-                                <p class="card-text book-info text-success">Type: Fairy Tale</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/fairy-tales-jack-and-the-beanstalk.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Children's Poetry</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 2-6 years</p>
-                                <p class="card-text book-info text-success">Type: Poetry</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/educational-alphabet.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Alphabet Adventures</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 3-6 years</p>
-                                <p class="card-text book-info text-success">Type: Educational</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/bedtime-stories.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Bedtime Stories</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 1-4 years</p>
-                                <p class="card-text book-info text-success">Type: Short Stories</p>
-                            </div>
+    <div class="card" data-state="#about">
+        <div class="card-header">
+            <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1549068106-b024baf5062d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80')"></div>
+            <img class="card-avatar" src="imgg/2.png" alt="avatar" />
+            <h1 class="card-fullname">Ahmed Basem</h1>
+            <h2 class="card-jobtitle" style="color: black">Parent of two children</h2>
+        </div>
+        <div class="card-main">
+            <div class="card-section is-active" id="about">
+                <div class="column">
+                    <div class="card">
+                        <img src="imgg/ch2.avif" alt="Salwa" style="width:100%">
+                        <div class="container">
+                            <h2>Salwa Ahmed</h2>
+                            <p class="title">4 years old</p>
+                            <p><button class="button">More Info</button></p>
                         </div>
                     </div>
                 </div>
 
-                    <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-primary" onclick="downloadBook()">Download</button>
+                <div class="column">
+                    <div class="card">
+                        <img src="imgg/ch3.avif" alt="Sara" style="width:100%">
+                        <div class="container">
+                            <h2>Sara Ahmed</h2>
+                            <p class="title">2 years old</p>
+                            <p><button class="button">More Info</button></p>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="card-section" id="contact">
+                <div class="card-content">
+                    <div class="card-subtitle">CONTACT</div>
+                    <div class="card-contact-wrapper">
+                        <div class="card-contact">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                <circle cx="12" cy="10" r="3" /></svg>
+                            Nablus-Rafedia
+                        </div>
+                        <div class="card-contact">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg>+972 598 501 238</div>
+                        <div class="card-contact">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <path d="M22 6l-10 7L2 6" /></svg>
+                            Ahmed.Basem@outlook.sa
+                        </div>
+                        <button class="contact-me">Edit my contact data</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-buttons">
+                <button data-section="#about" class="is-active">ABOUT</button>
+                <button data-section="#contact">CONTACT</button>
+            </div>
         </div>
     </div>
-
+    <script src="script.js"></script>
 
 
     <!-- Footer Start -->
@@ -229,15 +229,6 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
-<script>
-    function toggleForm() {
-        var formContainer = document.getElementById('formContainer');
-        formContainer.style.display = 'block';
-    }
-
-
-    }
-</script>
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -246,7 +237,31 @@
 <script src="lib/waypoints/waypoints.min.js"></script>
 <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
+
+
+<script>
+    const buttons = document.querySelectorAll(".card-buttons button");
+    const sections = document.querySelectorAll(".card-section");
+    const card = document.querySelector(".card");
+
+    const handleButtonClick = e => {
+        const targetSection = e.target.getAttribute("data-section");
+        const section = document.querySelector(targetSection);
+        targetSection !== "#about" ?
+            card.classList.add("is-active") :
+            card.classList.remove("is-active");
+        card.setAttribute("data-state", targetSection);
+        sections.forEach(s => s.classList.remove("is-active"));
+        buttons.forEach(b => b.classList.remove("is-active"));
+        e.target.classList.add("is-active");
+        section.classList.add("is-active");
+    };
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", handleButtonClick);
+    });
+</script>
+<!-- Template Javascript -->
 <script src="js/main.js"></script>
 </body>
-
 </html>
