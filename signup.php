@@ -2,7 +2,7 @@
 
 <?php
 
-var_dump($_POST);
+
 include('connect.php');
 global $conn;
     session_start();
@@ -25,7 +25,7 @@ global $conn;
             } else {
                 $insert = "INSERT INTO parent (Name, Email, password,Location, Phone,  pic) VALUES('$name','$email','$password','','','')";
                 mysqli_query($conn, $insert);
-//                header('location:index.html');
+             header('location:index.html');
             }
 
 
