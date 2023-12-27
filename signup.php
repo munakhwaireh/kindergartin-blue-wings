@@ -1,38 +1,148 @@
+<?php
+include('connect.php');
+global $conn;
+session_start();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['signup-form'])) {
+        // Handle sign-up form submission
+        $name = mysqli_real_escape_string($conn, $_POST['name']);
+        $email = mysqli_real_escape_string($conn, $_POST['email-signup']);
+        $password = ($_POST['password-signup']);
 
+        $select = " SELECT * FROM  parent WHERE Email = '$email' && password = '$password' ";
+
+        $result = mysqli_query($conn, $select);
+
+        if (mysqli_num_rows($result) > 0) {
+
+            $error[] = 'user already exist!';
+
+        } else {
+            $insert = "INSERT INTO parent (Name, Email, password,Location, Phone,  pic) VALUES('$name','$email','$password','','','')";
+            mysqli_query($conn, $insert);
+            header('location:index.html');
+        }
+    }
+
+    else if (isset($_POST['signin-form'])) {
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $password = ($_POST['password']);
+        $select = " SELECT * FROM  parent WHERE Email = '$email' && password = '$password' ";
+        $result = mysqli_query($conn, $select);
+        if (mysqli_num_rows($result) > 0) {
+            echo "Login Successful";
+            $row = mysqli_fetch_array($result);
+            $_SESSION['name'] = $row['Name'];
+            $_SESSION['email'] = $row['Email'];
+            header('location:index.html');
+
+        } else {
+            echo "Login failed";
+            $error[] = 'Incorrect email or password!';
+        }
+
+    }
+}
+
+?>
 
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require 'PHPMailer-master/PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer-master/PHPMailer-master/src/SMTP.php';
+require 'PHPMailer-master/PHPMailer-master/src/Exception.php';
+
 
 include('connect.php');
-global $conn;
-    session_start();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['signup-form'])) {
-            // Handle sign-up form submission
-            $name = mysqli_real_escape_string($conn, $_POST['name']);
-            $email = mysqli_real_escape_string($conn, $_POST['email-signup']);
-            $password = ($_POST['password-signup']);
+session_start();
 
-            $select = " SELECT * FROM  parent WHERE Email = '$email' && password = '$password' ";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['reset-password-form'])) {
+        $email = mysqli_real_escape_string($conn, $_POST['email-forgot']);
 
-            $result = mysqli_query($conn, $select);
+        // Check if the email exists in the database
+        $select = "SELECT * FROM parent WHERE Email = '$email'";
+        $result = mysqli_query($conn, $select);
 
-            if (mysqli_num_rows($result) > 0) {
-
-                $error[] = 'user already exist!';
-
-            } else {
-                $insert = "INSERT INTO parent (Name, Email, password,Location, Phone,  pic) VALUES('$name','$email','$password','','','')";
-                mysqli_query($conn, $insert);
-             header('location:index.html');
+        if (mysqli_num_rows($result) > 0) {
+            // Generate a unique token (you can use a library for this)
+            try {
+                $token = bin2hex(random_bytes(32));
+            } catch (Exception $e) {
             }
 
+            // Store the token in the database along with the user's email and a timestamp
+            $updateToken = "UPDATE parent SET reset_token = '$token', reset_timestamp = NOW() WHERE Email = '$email'";
+            mysqli_query($conn, $updateToken);
 
-        };
+            // Send an email with a link to the password reset page
+            $resetLink = "https://yourwebsite.com/reset_password_page.php?email=$email&token=$token";
+            $subject = "Password Reset Request";
+            $message = "Click the following link to reset your password: $resetLink";
 
+            // Use PHPMailer to send the email
+            $mail = new PHPMailer;
+
+            // Enable SMTP debugging (optional)
+            $mail->SMTPDebug = 0;
+
+            // Set mailer to use SMTP
+            $mail->isSMTP();
+
+            // Specify SMTP server
+            $mail->Host = 'smtp.yourmailserver.com';
+
+            // Enable SMTP authentication
+            $mail->SMTPAuth = true;
+
+            // SMTP username
+            $mail->Username = 'your_username';
+
+            // SMTP password
+            $mail->Password = 'your_password';
+
+            // Enable TLS encryption, `ssl` also accepted
+            $mail->SMTPSecure = 'tls';
+
+            // TCP port to connect to
+            $mail->Port = 587;
+
+            // Sender email address
+            try {
+                $mail->setFrom('mona.j.khwaireh@gmail.com', 'muna');
+            } catch (Exception $e) {
+            }
+
+            // Recipient email address
+            try {
+                $mail->addAddress($email);
+            } catch (Exception $e) {
+            }
+
+            // Subject of the email
+            $mail->Subject = $subject;
+
+            // Body of the email
+            $mail->Body = $message;
+
+            try {
+                if ($mail->send()) {
+                    echo "An email has been sent with instructions to reset your password.";
+                } else {
+                    echo "Error sending email: " . $mail->ErrorInfo;
+                }
+            } catch (Exception $e) {
+            }
+        } else {
+            echo "No account found with that email address.";
+        }
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +154,7 @@ global $conn;
     <meta content="" name="description">
 
     <!-- Favicon -->
-<!--    <link href="img/favicon.ico" rel="icon">-->
+    <!--    <link href="img/favicon.ico" rel="icon">-->
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,21 +171,21 @@ global $conn;
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form class="border rounded p-4 bg-white" id="signin-form">
+            <form class="border rounded p-4 bg-white" name="signin-form" id="signin-form" method="post" action="signup.php">
                 <h2 class="text-center mb-4">Sign In</h2>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" required>
+                    <input type="email" class="form-control" id="email" name="email" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" required>
+                    <input type="password" class="form-control" id="password"  name="password" required>
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="remember">
                     <label class="form-check-label" for="remember">Remember me</label>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                <button type="submit" class="btn btn-primary w-100" name="signin-form" id="signin-form">Sign In</button>
                 <p class="text-center mt-3">
                     <a href="#" class="text-decoration-none" id="forgot-link">Forgot password?</a>
                 </p>
@@ -109,7 +219,7 @@ global $conn;
 
 
             <!-- Forgot Password Form (Initially Hidden) -->
-            <form class="border rounded p-4 bg-white d-none" id="forgot-form">
+            <form class="border rounded p-4 bg-white d-none" name="forgot-form" id="forgot-form"  method="post">
                 <h2 class="text-center mb-4">Forgot Password</h2>
                 <div class="mb-3">
                     <label for="email-forgot" class="form-label">Email</label>
