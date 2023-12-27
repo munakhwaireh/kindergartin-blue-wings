@@ -57,7 +57,7 @@ require 'PHPMailer-master/PHPMailer-master/src/Exception.php';
 
 include('connect.php');
 
-session_start();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['reset-password-form'])) {
