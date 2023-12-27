@@ -1,22 +1,20 @@
 
 
 <?php
-    // Include the database connection file
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
+var_dump($_POST);
 include('connect.php');
 global $conn;
     session_start();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['signup'])) {
+        if (isset($_POST['signup-form'])) {
             // Handle sign-up form submission
             $name = mysqli_real_escape_string($conn, $_POST['name']);
             $email = mysqli_real_escape_string($conn, $_POST['email-signup']);
-            $password = md5($_POST['password-signup']);
+            $password = ($_POST['password-signup']);
 
-            $select = " SELECT * FROM  `parent` WHERE email = '$email' && password = '$password' ";
+            $select = " SELECT * FROM  parent WHERE Email = '$email' && password = '$password' ";
 
             $result = mysqli_query($conn, $select);
 
@@ -25,9 +23,9 @@ global $conn;
                 $error[] = 'user already exist!';
 
             } else {
-                $insert = "INSERT INTO parent(name, email, password) VALUES('$name','$email','$password')";
+                $insert = "INSERT INTO parent (Name, Email, password,Location, Phone,  pic) VALUES('$name','$email','$password','','','')";
                 mysqli_query($conn, $insert);
-                header('location:index.html');
+//                header('location:index.html');
             }
 
 
@@ -46,7 +44,7 @@ global $conn;
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+<!--    <link href="img/favicon.ico" rel="icon">-->
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,7 +85,7 @@ global $conn;
             </form>
 
             <!-- Sign Up Form (Initially Hidden) -->
-            <form class="border rounded p-4 bg-white d-none" id="signup-form" method="post" action="signup.php">
+            <form class="border rounded p-4 bg-white d-none" name="signup-form" id="signup-form" method="post" action="signup.php">
                 <h2 class="text-center mb-4">Sign Up</h2>
 
                 <div class="mb-3">
@@ -102,7 +100,7 @@ global $conn;
                     <label for="password-signup" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password-signup" name="password-signup" required>
                 </div>
-                <button type="submit" class="btn btn-pink w-100" href="#" >Sign Up</button>
+                <button type="submit" class="btn btn-pink w-100" name="signup-form" id="signup-form" href="#" >Sign Up</button>
 
                 <p class="text-center mt-3">
                     <a href="#" class="text-primary" id="signin-link">Already have an account? Sign in</a>
