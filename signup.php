@@ -27,20 +27,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     else if (isset($_POST['signin-form'])) {
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = ($_POST['password']);
-        $select = " SELECT * FROM  parent WHERE Email = '$email' && password = '$password' ";
-        $result = mysqli_query($conn, $select);
-        if (mysqli_num_rows($result) > 0) {
+
+        // Check both parent and teacher tables
+        $selectParent = "SELECT * FROM parent WHERE Email = '$email' && password = '$password'";
+        $selectTeacher = "SELECT * FROM teacher WHERE email = '$email' && password = '$password'";
+
+        $resultParent = mysqli_query($conn, $selectParent);
+        $resultTeacher = mysqli_query($conn, $selectTeacher);
+
+        if (mysqli_num_rows($resultParent) > 0) {
             echo "Login Successful";
-            $row = mysqli_fetch_array($result);
+            $row = mysqli_fetch_array($resultParent);
+            $_SESSION['user_id'] = $row['P_ID']; // Assuming 'ID' is the primary key in your 'parent' table
             $_SESSION['name'] = $row['Name'];
             $_SESSION['email'] = $row['Email'];
-            header('location:guardian.php');
-
+            header('location: guardian.php');
+        } elseif (mysqli_num_rows($resultTeacher) > 0) {
+            echo "Login Successful as Teacher";
+            $row = mysqli_fetch_array($resultTeacher);
+            // You can customize the session variables for the teacher as needed
+            $_SESSION['user_id'] = $row['ID']; // Assuming 'ID' is the primary key in your 'teacher' table
+            $_SESSION['name'] = $row['name'];
+            $_SESSION['email'] = $row['email'];
+            header('location: teacherProfile.php');
         } else {
             echo "Login failed";
             $error[] = 'Incorrect email or password!';
+            header('location:index.html');
         }
-
     }
 }
 
