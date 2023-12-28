@@ -131,6 +131,7 @@
         <!-- About End -->
 
 
+
         <!-- Call To Action Start -->
         <div class="container-xxl py-5">
             <div class="container">
@@ -146,7 +147,20 @@
                                 <h1 class="mb-4">Become A Teacher</h1>
                                 <p class="mb-4">Inspire young minds and be a catalyst for learning at our kindergarten! We're inviting passionate and dedicated teachers to join our dynamic team. If you're eager to make a positive impact, foster creativity, and be part of a joyful educational journey, we encourage you to apply. Shape the future with us and create an environment where every day is an opportunity for growth and discovery.
                                 </p>
-                                <a class="btn btn-primary py-3 px-5" href="">Get Started Now<i class="fa fa-arrow-right ms-2"></i></a>
+                                <!-- Hidden form initially -->
+                                <form id="getStartedForm" style="display: none;">
+                                    <div class="mb-3">
+                                        <label for="fullName" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="fullName" placeholder="Enter your full name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                                    </div>
+                                    <button type="button" class="btn btn-primary py-3 px-5" onclick="submitForm()">Submit<i class="fa fa-arrow-right ms-2"></i></button>
+                                </form>
+                                <!-- Button to show the form -->
+                                <button type="button" class="btn btn-primary py-3 px-5 mt-3" onclick="showForm()">Get Started Now<i class="fa fa-arrow-right ms-2"></i></button>
                             </div>
                         </div>
                     </div>
@@ -306,6 +320,17 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <script>
+        function showForm() {
+            document.getElementById("getStartedForm").style.display = "block";
+        }
+
+        function submitForm() {
+            // You can add your form submission logic here
+            alert("Form submitted! (Note: This is a placeholder for actual form submission logic)");
+        }
+    </script>
 </body>
 
 </html>
