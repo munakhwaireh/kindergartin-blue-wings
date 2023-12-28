@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $insert = "INSERT INTO parent (Name, Email, password,Location, Phone,  pic) VALUES('$name','$email','$password','','','')";
             mysqli_query($conn, $insert);
-            header('location:index.html');
+            header('location:guardian.php');
         }
     }
 
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $row = mysqli_fetch_array($result);
             $_SESSION['name'] = $row['Name'];
             $_SESSION['email'] = $row['Email'];
-            header('location:index.html');
+            header('location:guardian.php');
 
         } else {
             echo "Login failed";
@@ -50,13 +50,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 require 'PHPMailer-master/PHPMailer-master/src/PHPMailer.php';
 require 'PHPMailer-master/PHPMailer-master/src/SMTP.php';
 require 'PHPMailer-master/PHPMailer-master/src/Exception.php';
 
-
 include('connect.php');
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -71,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Generate a unique token (you can use a library for this)
             try {
                 $token = bin2hex(random_bytes(32));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
 
             // Store the token in the database along with the user's email and a timestamp
@@ -79,40 +81,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_query($conn, $updateToken);
 
             // Send an email with a link to the password reset page
-            $resetLink = "https://yourwebsite.com/reset_password_page.php?email=$email&token=$token";
+            $resetLink = "https://localhost/kinderdarten-blue-wings/signup.php?email=$email&token=$token";
             $subject = "Password Reset Request";
-            $message = "Click the following link to reset your password: $resetLink";
+            $message = "Click the following link to reset your password: ";
 
             // Use PHPMailer to send the email
             $mail = new PHPMailer;
 
             // Enable SMTP debugging (optional)
-            $mail->SMTPDebug = 0;
+            $mail->SMTPDebug = 2;
 
             // Set mailer to use SMTP
             $mail->isSMTP();
 
-            // Specify SMTP server
-            $mail->Host = 'smtp.yourmailserver.com';
+            // Specify SMTP server (Mailtrap)
+            $mail->Host = 'smtp.mailtrap.io';
 
             // Enable SMTP authentication
             $mail->SMTPAuth = true;
 
-            // SMTP username
-            $mail->Username = 'your_username';
+            // SMTP username (Mailtrap)
+            $mail->Username = 'e0397491943bf4';
 
-            // SMTP password
-            $mail->Password = 'your_password';
+            // SMTP password (Mailtrap)
+            $mail->Password = '70545d027988ab';
 
-            // Enable TLS encryption, `ssl` also accepted
+            // Enable TLS encryption
             $mail->SMTPSecure = 'tls';
 
-            // TCP port to connect to
-            $mail->Port = 587;
+            // TCP port to connect to (Mailtrap)
+            $mail->Port = 25;
+
 
             // Sender email address
             try {
-                $mail->setFrom('mona.j.khwaireh@gmail.com', 'muna');
+                $mail->setFrom('s12028473@stu.najah.edu', 'muna');
             } catch (Exception $e) {
             }
 
@@ -142,6 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -219,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
             <!-- Forgot Password Form (Initially Hidden) -->
-            <form class="border rounded p-4 bg-white d-none" name="forgot-form" id="forgot-form"  method="post">
+            <form class="border rounded p-4 bg-white d-none" name="reset-password-form" id="reset-password-form"  method="post">
                 <h2 class="text-center mb-4">Forgot Password</h2>
                 <div class="mb-3">
                     <label for="email-forgot" class="form-label">Email</label>
@@ -240,19 +244,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     document.getElementById('signup-link').addEventListener('click', function () {
         document.getElementById('signin-form').classList.toggle('d-none');
         document.getElementById('signup-form').classList.toggle('d-none');
-        document.getElementById('forgot-form').classList.add('d-none'); // Hide forgot form
+        document.getElementById('reset-password-form').classList.add('d-none'); // Hide forgot form
     });
 
     document.getElementById('signin-link').addEventListener('click', function () {
         document.getElementById('signin-form').classList.toggle('d-none');
         document.getElementById('signup-form').classList.add('d-none'); // Hide sign up form
-        document.getElementById('forgot-form').classList.add('d-none'); // Hide forgot form
+        document.getElementById('reset-password-form').classList.add('d-none'); // Hide forgot form
     });
 
     document.getElementById('forgot-link').addEventListener('click', function () {
         document.getElementById('signin-form').classList.add('d-none'); // Hide sign in form
         document.getElementById('signup-form').classList.add('d-none'); // Hide sign up form
-        document.getElementById('forgot-form').classList.toggle('d-none'); // Toggle visibility of forgot form
+        document.getElementById('reset-password-form').classList.toggle('d-none'); // Toggle visibility of forgot form
     });
 
     // Additional code for handling the "Reset Password" button
@@ -288,7 +292,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handling the "Return to Sign In" button
     document.getElementById('return-to-signin-btn').addEventListener('click', function () {
         document.getElementById('signin-form').classList.remove('d-none');
-        document.getElementById('forgot-form').classList.add('d-none');
+        document.getElementById('reset-password-form').classList.add('d-none');
         document.getElementById('reset-password-message').textContent = ""; // Clear the message
     });
 </script>

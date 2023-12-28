@@ -1,3 +1,84 @@
+<?php
+global $conn;
+global $pic;
+global $childCount;
+global $user_id;
+global $birthdate;
+global $name;
+global $result;
+global $phone;
+global $email;
+
+
+include('connect.php');
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Update the email, location, and phone if the request is a POST request
+    $user_id = $_POST['user_id'];
+    $new_email = $_POST['new_email'];
+    $new_birthdate = $_POST['new_birthdate'];
+    $new_phone = $_POST['new_phone'];
+
+    // Perform the update in the database
+    $update_query = "UPDATE teacher SET email = '$new_email', birthdate = '$new_birthdate', Phone = '$new_phone' WHERE T_ID = $user_id";
+    $update_result = mysqli_query($conn, $update_query);
+
+    if ($update_result) {
+        echo "success";
+        // Stop execution after handling the update
+    } else {
+        echo "error";
+        // Stop execution after handling the error
+    }
+    exit();
+}
+
+// If it's not a POST request, proceed with retrieving user information
+
+// Check if the user_id session variable is set
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+
+    $select = "(
+        SELECT t.*, COUNT(c.T_ID) AS child_count
+        FROM teacher t
+        LEFT JOIN children c ON t.ID = c.T_ID
+        WHERE t.ID = $user_id
+        GROUP BY t.ID
+    )
+    UNION
+    (
+        SELECT c.*, c.ID AS Child_ID, c.name AS Child_Name, c.age AS Child_Age
+        FROM children c
+        WHERE c.T_ID = $user_id
+    )";
+
+    $result = mysqli_query($conn, $select);
+
+    if ($row = mysqli_fetch_array($result)) {
+        $email = $row['email'];
+        $name = $row['name'];
+        $birthdate = $row['birthdate'];
+        $phone = $row['Phone'];
+        $pic = $row['pic'];
+        $childCount = $row['child_count'];
+
+        // Output other user information as needed
+        echo "<h2 class='card-jobtitle' style='color: black'>Teacher of $childCount child" . ($childCount == 1 ? "" : "ren") . "</h2>";
+
+
+    } else {
+        echo "User not found in the database.";
+    }
+} else {
+    // Handle the case when the user_id session variable is not set
+    echo "User not logged in.";
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +133,7 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
-        <a href="index.html" class="navbar-brand">
+        <a href="teacherProfile.php" class="navbar-brand">
             <h1 class="m-0 text-primary"><i class="fa fa-book-reader me-3"></i>Blue Wings Kindergarten </h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -60,23 +141,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About Us</a>
-                <a href="classes.html" class="nav-item nav-link">Classes</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu rounded-0 rounded-bottom border-0 shadow-sm m-0">
-                        <a href="facility.html" class="dropdown-item">School Facilities</a>
-                        <a href="team.html" class="dropdown-item">Popular services</a>
-                        <a href="call-to-action.html" class="dropdown-item">Become A Teachers</a>
-                        <a href="appointment.html" class="dropdown-item">Make Appointment</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                    </div>
-                </div>
-                <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+
+                <a href="teacherProfile.php" class="nav-item nav-link active">Profile</a>
+                <a href="activities_teacher.html" class="nav-item nav-link ">Activities</a>
+                <a href="library_teacher.html" class="nav-item nav-link ">library</a>
+
             </div>
-            <a href="signup.php" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
-        </div>
+            </div>
+            <a href="index.html" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
+
     </nav>
     <!-- Navbar End -->
 
@@ -85,33 +158,38 @@
     <div class="card" data-state="#about">
         <div class="card-header">
             <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1549068106-b024baf5062d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80')"></div>
-            <img class="card-avatar" src="imgg/1.png" alt="avatar" />
-            <h1 class="card-fullname">Aleen Yaseen</h1>
-            <h2 class="card-jobtitle" style="color: black">Mathmetics Teacher</h2>
+            <img class="card-avatar" src="<?php echo $pic; ?>" alt="avatar" />
+            <h1 class="card-fullname">    <?php echo $name; ?>
+            </h1>
+            <h2 class="card-jobtitle" style="color: black"><?php echo "Teacher of $childCount child" . ($childCount == 1 ? "" : "ren"); ?></h2>
         </div>
         <div class="card-main">
             <div class="card-section is-active" id="about">
-                <div class="column">
-                    <div class="card">
-                        <img src="imgg/ch2.avif" alt="Salwa" style="width:100%">
-                        <div class="container">
-                            <h2>Salwa Ahmed</h2>
-                            <p class="title">4 years old</p>
-                            <p><button class="button">More Info</button></p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="column">
-                    <div class="card">
-                        <img src="imgg/ch3.avif" alt="Sara" style="width:100%">
-                        <div class="container">
-                            <h2>Sara Ahmed</h2>
-                            <p class="title">2 years old</p>
-                            <p><button class="button">More Info</button></p>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                // Output child information dynamically
+                while ($childRow = mysqli_fetch_array($result)) {
+                    $childPic = $childRow['pic'];
+                    $childName = $childRow['Child_Name'];
+                    $childAge = $childRow['Child_Age'];
+
+                    // Use absolute path for the image (replace with an actual URL)
+                    $absoluteImagePath = "imgg/p.jpeg"; // Replace with an actual image URL
+                    echo "<div class='column'>";
+                    echo "<div class='card'>";
+                    echo "<img src='$absoluteImagePath' alt='$childName' style='width:100%'>";
+                    echo "<div class='container'>";
+                    echo "<h2>$childName</h2>";
+                    echo "<p class='title'>$childAge years old</p>";
+                    echo "<p><button class='button'>More Info</button></p>";
+                    echo "</div>";
+                    echo "</div>";
+                    echo "</div>";
+                }
+                ?>
+                ?>
+
+
             </div>
             <div class="card-section" id="contact">
                 <div class="card-content">
@@ -121,18 +199,18 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
                                 <circle cx="12" cy="10" r="3" /></svg>
-                            Nablus-Rafedia
+                            <?php echo $birthdate; ?>
                         </div>
                         <div class="card-contact">
                             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg>+972 598 501 238</div>
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg><?php echo $phone; ?></div>
                         <div class="card-contact">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                                 <path d="M22 6l-10 7L2 6" /></svg>
-                            Aleen.Yaseen@outlook.sa
+                            <?php echo $email; ?>
                         </div>
-                        <button class="contact-me">Edit my contact data</button>
+                        <button id="editContactBtn" class="contact-me">Edit my contact data</button>
                     </div>
                 </div>
             </div>
@@ -142,7 +220,7 @@
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+<!--    <script src="script.js"></script>-->
 
 
     <!-- Footer Start -->
@@ -197,7 +275,9 @@
                     <h3 class="text-white mb-4">Newsletter</h3>
                     <p>Didn't you join us until now !!! hurry up and enjoy :)</p>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <label>
+                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        </label>
                         <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                     </div>
                 </div>
@@ -236,8 +316,43 @@
 <script src="lib/easing/easing.min.js"></script>
 <script src="lib/waypoints/waypoints.min.js"></script>
 <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 
+
+<script>
+    $(document).ready(function () {
+        $("#editContactBtn").on("click", function () {
+            var newEmail = prompt("Enter new email:");
+            var newBirthdate = prompt("Enter new birthdate:");
+            var newPhone = prompt("Enter new phone:");
+
+            if (newEmail !== null || newBirthdate !== null || newPhone !== null) {
+                $.ajax({
+                    url: "teacherProfile.php",
+                    method: "POST",
+                    data: {
+                        user_id: <?php echo $user_id; ?>,
+                        new_email: newEmail,
+                        new_birthdate: newBirthdate,
+                        new_phone: newPhone
+                    },
+                    success: function (response) {
+                        if (response === "success") {
+                            alert("Contact information updated successfully.");
+
+                            // Reload the page after updating
+                            location.reload();
+                        } else {
+                            alert("Failed to update contact information.");
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+</script>
 
 <script>
     const buttons = document.querySelectorAll(".card-buttons button");
