@@ -1,15 +1,5 @@
 <?php
 global $conn;
-global $pic;
-global $childCount;
-global $user_id;
-global $birthdate;
-global $name;
-global $result;
-global $phone;
-global $email;
-
-
 include('connect.php');
 session_start();
 
@@ -21,17 +11,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_phone = $_POST['new_phone'];
 
     // Perform the update in the database
-    $update_query = "UPDATE teacher SET email = '$new_email', birthdate = '$new_birthdate', Phone = '$new_phone' WHERE T_ID = $user_id";
+    $update_query = "UPDATE teacher SET email = '$new_email', birthdate = '$new_birthdate', Phone = '$new_phone' WHERE ID = $user_id";
     $update_result = mysqli_query($conn, $update_query);
 
     if ($update_result) {
         echo "success";
-        // Stop execution after handling the update
+        exit(); // Stop execution after handling the update
     } else {
         echo "error";
-        // Stop execution after handling the error
+        exit(); // Stop execution after handling the error
     }
-    exit();
 }
 
 // If it's not a POST request, proceed with retrieving user information
@@ -133,8 +122,8 @@ if (isset($_SESSION['user_id'])) {
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
-        <a href="teacherProfile.php" class="navbar-brand">
-            <h1 class="m-0 text-primary"><i class="fas fa-school m-3"></i>Blue Wings Kindergarten </h1>
+        <a href="activities_parents.html" class="navbar-brand">
+            <h1 class="m-0 text-primary"><i class="fa fa-book-reader me-3"></i>Blue Wings Kindergarten</h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -142,16 +131,16 @@ if (isset($_SESSION['user_id'])) {
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto">
 
-                <a href="teacherProfile.php" class="nav-item nav-link active">Profile</a>
-                <a href="activities_teacher.html" class="nav-item nav-link ">Activities</a>
+                <a href="teacherProfile.php" class="nav-item nav-link ">Profile</a>
+                <a href="activities_teacher.html" class="nav-item nav-link active ">Activities</a>
                 <a href="library_teacher.html" class="nav-item nav-link ">library</a>
 
             </div>
-            </div>
             <a href="index.html" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
-
+        </div>
     </nav>
     <!-- Navbar End -->
+
 
 
 
@@ -169,25 +158,25 @@ if (isset($_SESSION['user_id'])) {
                 <?php
                 // Output child information dynamically
                 while ($childRow = mysqli_fetch_array($result)) {
-                    $childPic = $childRow['pic'];
-                    $childName = $childRow['Child_Name'];
-                    $childAge = $childRow['Child_Age'];
-
+                    /* $childPic = $childRow['pic'];
+                     $childName = $childRow['Child_Name'];
+                     $childAge = $childRow['Child_Age'];
+                 */
                     // Use absolute path for the image (replace with an actual URL)
                     $absoluteImagePath = "imgg/p.jpeg"; // Replace with an actual image URL
                     echo "<div class='column'>";
                     echo "<div class='card'>";
-                    echo "<img src='$absoluteImagePath' alt='$childName' style='width:100%'>";
+                    echo "<img src='$absoluteImagePath' alt='wewe' style='width:100%'>";
                     echo "<div class='container'>";
-                    echo "<h2>$childName</h2>";
-                    echo "<p class='title'>$childAge years old</p>";
+                    echo "<h2>Alice Smith</h2>";
+                    echo "<p class='title'>2 years old</p>";
                     echo "<p><button class='button'>More Info</button></p>";
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
                 }
                 ?>
-                ?>
+
 
 
             </div>
@@ -220,7 +209,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-<!--    <script src="script.js"></script>-->
+    <script src="script.js"></script>
 
 
     <!-- Footer Start -->
@@ -275,9 +264,7 @@ if (isset($_SESSION['user_id'])) {
                     <h3 class="text-white mb-4">Newsletter</h3>
                     <p>Didn't you join us until now !!! hurry up and enjoy :)</p>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <label>
-                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        </label>
+                        <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
                         <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                     </div>
                 </div>

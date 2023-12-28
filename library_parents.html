@@ -30,6 +30,16 @@
 
 
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        /* Add this to your CSS */
+        .book-cover {
+            width: 100%;
+            height: 400px; /* Adjust the height as needed */
+            object-fit: cover; /* Maintain aspect ratio while covering the entire space */
+        }
+
+    </style>
 </head>
 
 <body>
@@ -46,7 +56,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
         <a href="library_parents.html" class="navbar-brand">
-            <h1 class="m-0 text-primary"><i class="fas fa-school m-3"></i>Blue Wings Kindergarten </h1>
+            <h1 class="m-0 text-primary"><i class="fa fa-book-reader me-3"></i>Blue Wings Kindergarten </h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -66,7 +76,7 @@
 
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-8" >
 
                 <!-- Book List -->
                 <div id="bookList" class="row row-cols-1 row-cols-md-3 g-3">
@@ -74,7 +84,7 @@
                         <div class="card h-100">
                             <img src="img/fairy-tales-jack-and-the-beanstalk.jpg" alt="Book Cover" class="card-img-top book-cover">
                             <div class="card-body">
-                                <h5 class="card-title book-title">Sample Book</h5>
+                                <h5 class="card-title book-title">Jack and the bean stalk</h5>
                                 <p class="card-text book-info text-primary">Suitable Age: 3-5 years</p>
                                 <p class="card-text book-info text-success">Type: Story</p>
                             </div>
@@ -83,7 +93,7 @@
                     <!-- Additional book cards go here -->
                     <div class="col">
                         <div class="card h-100">
-                            <img src="img/fairy-tales-jack-and-the-beanstalk.jpg" alt="Book Cover" class="card-img-top book-cover">
+                            <img src="imgg/cindrella.jpg" alt="Book Cover" class="card-img-top book-cover">
                             <div class="card-body">
                                 <h5 class="card-title book-title">Cinderella</h5>
                                 <p class="card-text book-info text-primary">Suitable Age: 4-8 years</p>
@@ -94,7 +104,7 @@
 
                     <div class="col">
                         <div class="card h-100">
-                            <img src="img/fairy-tales-jack-and-the-beanstalk.jpg" alt="Book Cover" class="card-img-top book-cover">
+                            <img src="imgg/pc.jpg" alt="Book Cover" class="card-img-top book-cover">
                             <div class="card-body">
                                 <h5 class="card-title book-title">Children's Poetry</h5>
                                 <p class="card-text book-info text-primary">Suitable Age: 2-6 years</p>
@@ -105,7 +115,7 @@
 
                     <div class="col">
                         <div class="card h-100">
-                            <img src="img/educational-alphabet.jpg" alt="Book Cover" class="card-img-top book-cover">
+                            <img src="imgg/aa.webp" alt="Book Cover" class="card-img-top book-cover">
                             <div class="card-body">
                                 <h5 class="card-title book-title">Alphabet Adventures</h5>
                                 <p class="card-text book-info text-primary">Suitable Age: 3-6 years</p>
@@ -116,7 +126,7 @@
 
                     <div class="col">
                         <div class="card h-100">
-                            <img src="img/bedtime-stories.jpg" alt="Book Cover" class="card-img-top book-cover">
+                            <img src="imgg/bs.jpg" alt="Book Cover" class="card-img-top book-cover">
                             <div class="card-body">
                                 <h5 class="card-title book-title">Bedtime Stories</h5>
                                 <p class="card-text book-info text-primary">Suitable Age: 1-4 years</p>
@@ -126,98 +136,128 @@
                     </div>
                 </div>
 
-                    <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-primary" onclick="downloadBook()">Download</button>
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-primary" onclick="downloadBook()" style="margin-top: 50px; margin-bottom: 50px;">Download</button>
+                    <!-- Add this script block after your existing scripts -->
+                    <script>
+                        function downloadBook() {
+                            // Replace 'your_book_file_url.pdf' with the actual file URL
+                            var bookFileUrl = 'your_book_file_url.pdf';
+                            var fileName = 'SampleBook.pdf'; // Set the desired filename
+
+                            // Show a confirmation dialog
+                            var isConfirmed = confirm('Are you sure you want to download this book?');
+
+                            // Check if the user confirmed the download
+                            if (isConfirmed) {
+                                // Create a hidden anchor element
+                                var downloadLink = document.createElement('a');
+                                downloadLink.href = bookFileUrl;
+                                downloadLink.download = fileName;
+
+                                // Append the anchor to the document body
+                                document.body.appendChild(downloadLink);
+
+                                // Simulate a click on the anchor to trigger the download
+                                downloadLink.click();
+
+                                // Remove the anchor from the document body
+                                document.body.removeChild(downloadLink);
+                            }
+                        }
+                    </script>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-lg-3 col-md-6">
+                <h3 class="text-white mb-4">Get In Touch</h3>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Rafedia Street, Nablus, Palestine</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+970 59-5678903</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>bluewings@example.com</p>
+                <div class="d-flex pt-2">
+
+                    <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h3 class="text-white mb-4">Quick Links</h3>
+                <a class="btn btn-link text-white-50" href="about.html">About Us</a>
+                <a class="btn btn-link text-white-50" href="contact.html">Contact Us</a>
+                <a class="btn btn-link text-white-50" href="">Our Services</a>
+                <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
+                <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h3 class="text-white mb-4">Photo Gallery</h3>
+                <div class="row g-2 pt-2">
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/classes-1.jpg" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/classes-2.jpg" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/classes-3.jpg" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/classes-4.png" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/classes-5.png" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid rounded bg-light p-1" src="img/classes-6.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h3 class="text-white mb-4">Newsletter</h3>
+                <p>Didn't you join us until now !!! hurry up and enjoy :)</p>
+                <div class="position-relative mx-auto" style="max-width: 400px;">
+                    <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                    <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">2023 Kindergarten blue Wings</a>,All Right Reserved.
+
+                    <!-- Designed By <a class="border-bottom" >Muna & Lama</a> -->
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="index.html">Home</a>
+                        <a href="about.html">about</a>
+                        <a href="contact.html">contact</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<!-- Footer End -->
 
 
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h3 class="text-white mb-4">Get In Touch</h3>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Rafedia Street, Nablus, Palestine</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+970 59-5678903</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>bluewings@example.com</p>
-                    <div class="d-flex pt-2">
-
-                        <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social" href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-light btn-social" href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h3 class="text-white mb-4">Quick Links</h3>
-                    <a class="btn btn-link text-white-50" href="about.html">About Us</a>
-                    <a class="btn btn-link text-white-50" href="contact.html">Contact Us</a>
-                    <a class="btn btn-link text-white-50" href="">Our Services</a>
-                    <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
-                    <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h3 class="text-white mb-4">Photo Gallery</h3>
-                    <div class="row g-2 pt-2">
-                        <div class="col-4">
-                            <img class="img-fluid rounded bg-light p-1" src="img/classes-1.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid rounded bg-light p-1" src="img/classes-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid rounded bg-light p-1" src="img/classes-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid rounded bg-light p-1" src="img/classes-4.png" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid rounded bg-light p-1" src="img/classes-5.png" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid rounded bg-light p-1" src="img/classes-6.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h3 class="text-white mb-4">Newsletter</h3>
-                    <p>Didn't you join us until now !!! hurry up and enjoy :)</p>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="copyright">
-                <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">2023 Kindergarten blue Wings</a>,All Right Reserved.
-
-                        <!-- Designed By <a class="border-bottom" >Muna & Lama</a> -->
-                    </div>
-                    <div class="col-md-6 text-center text-md-end">
-                        <div class="footer-menu">
-                            <a href="index.html">Home</a>
-                            <a href="about.html">about</a>
-                            <a href="contact.html">contact</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
-
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
 <script>

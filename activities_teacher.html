@@ -31,7 +31,6 @@
 
 
 
-
     <style>
 
         #calendar {
@@ -43,12 +42,17 @@
             grid-template-columns: repeat(7, 1fr);
             gap: 10px;
             margin-top: 30px;
+            margin-bottom: 70px;
         }
 
         .day {
             border: 1px solid #dee2e6;
             padding: 10px;
-            text-align: center;
+            text-align: center; display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
         }
 
         /* Additional Bootstrap Styles */
@@ -72,7 +76,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
         <a href="activities_teacher.html" class="navbar-brand">
-            <h1 class="m-0 text-primary"><i class="fas fa-school m-3"></i>Blue Wings Kindergarten</h1>
+            <h1 class="m-0 text-primary"><i class="fa fa-book-reader me-3"></i>Blue Wings Kindergarten</h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -94,12 +98,104 @@
     <!-- Activities Section -->
     <section class="container mt-5">
         <div class="row justify-content-center">
+            <h1 class="text-center mb-4" style="margin-top: 50px; padding-bottom: 50px;">Weekly Activities</h1>
+
+
+            <!-- Part 2: Show Activities -->
+            <div class="activity-card card">
+                <img src="img/fcnpajbi.png" alt="Outdoor Adventure" class="card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title" style="margin-top: 30px; padding-bottom: 10px;">Outdoor Adventure</h3>
+                    <p class="card-text" style="padding-bottom: 10px;">
+                        Enjoy the great outdoors with our exciting outdoor adventure activity. Let the kids explore
+                        nature, learn about different plants and animals, and have a fun-filled day of exploration.
+                    </p>
+                    <!-- Add more details or buttons as needed -->
+                </div>
+            </div>
+
+
+            <!--             Part 3: Calendar-->
+            <h1 class="text-center mt-4" style="padding-top: 120px; padding-bottom: 30px;">Weekly Activities Calendar</h1>
+            <div class="calendar"  style=" display: flex;
+ flex-direction: row;
+ justify-content: center;
+ align-items: center;
+ align-content: center;">
+                <!--                 Day 1-->
+                <div class="day border">
+                    <h4 class="mb-3" >Sunday</h4>
+                    <h6>Art and Craft</h6>
+                    <h7>  Kindergarten  </h7>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+
+                <!-- Day 2 -->
+                <div class="day border">
+                    <h4 class="mb-3">Monday</h4>
+                    <h6>Puzzles and Games</h6>
+                    <h7>  Kindergarten  </h7>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Day 3 -->
+                <div class="day border">
+                    <h4 class="mb-3">Tuesday</h4>
+                    <h6>Building with Blocks</h6>
+                    <h7>  Kindergarten  </h7>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Day 4 -->
+                <div class="day border">
+                    <h4 class="mb-3">Wednesday</h4>
+                    <h6>Cooking</h6>
+                    <h7>  Kindergarten  </h7>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Day 5 -->
+                <div class="day border">
+                    <h4 class="mb-3">Thursday</h4>
+                    <h6>Math Manipulatives</h6>
+                    <h7>  Kindergarten  </h7>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+
+
+
+            </div>
             <!-- Part 1: Add Activity Form -->
-            <div class="col-md-6 mb-4">
+            <h1 class="text-center mb-4" style="margin-top: 70px; padding-bottom: 10px; color: black;">-----------------------------------------------------------------------------------------</h1>
+
+            <h1 class="text-center mb-4" style="margin-top: 100px; padding-bottom: 10px;">Add new Activity!!!</h1>
+
+            <div class="col-md-6 mb-4" style="margin-top: 50px; margin-bottom: 50px">
                 <h2>Add Activity</h2>
                 <form id="addActivityForm">
                     <div class="mb-3">
                         <label for="activityName" class="form-label">Activity Name</label>
+                        <input type="text" class="form-control" id="activityName1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="activityName" class="form-label">Address</label>
                         <input type="text" class="form-control" id="activityName" required>
                     </div>
                     <div class="mb-3">
@@ -113,78 +209,6 @@
                     <button type="button" class="btn btn-primary" onclick="addActivity()">Add Activity</button>
                 </form>
             </div>
-
-            <!-- Part 2: Show Activities -->
-
-            <div class="activity-card card">
-                <img src="img/fcnpajbi.png" alt="Outdoor Adventure" class="card-img-top">
-                <div class="card-body">
-                    <h3 class="card-title">Outdoor Adventure</h3>
-                    <p class="card-text">
-                        Enjoy the great outdoors with our exciting outdoor adventure activity. Let the kids explore
-                        nature, learn about different plants and animals, and have a fun-filled day of exploration.
-                    </p>
-                    <!-- Add more details or buttons as needed -->
-                </div>
-            </div>
-
-
-<!--             Part 3: Calendar-->
-            <h2 class="text-center mt-4">Weekly Activities Calendar</h2>
-            <div class="calendar">
-<!--                 Day 1-->
-                <div class="day border">
-                    <h5 class="mb-3">sunday</h5>
-                    <p>Activity 1</p>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
-                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
-                    </div>
-                </div>
-
-
-                <!-- Day 2 -->
-                <div class="day border">
-                    <h5 class="mb-3">Monday</h5>
-                    <p>Activity 2</p>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
-                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
-                    </div>
-                </div>
-
-                <!-- Day 3 -->
-                <div class="day border">
-                    <h5 class="mb-3">Tuesday</h5>
-                    <p>Activity 2</p>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
-                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
-                    </div>
-                </div>
-
-                <!-- Day 4 -->
-                <div class="day border">
-                    <h5 class="mb-3">Wednesday</h5>
-                    <p>Activity 2</p>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
-                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
-                    </div>
-                </div>
-
-                <!-- Day 5 -->
-                <div class="day border">
-                    <h5 class="mb-3">Thursday</h5>
-                    <p></p>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
-                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
-                    </div>
-                </div>
-
-
-        </div>
         </div>
     </section>
 
