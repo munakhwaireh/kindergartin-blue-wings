@@ -9,13 +9,11 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <!--  <link href="img/favicon.ico" rel="icon"> -->
-
+    <link href="img/favicon.ico" rel="icon">
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@600&family=Lobster+Two:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-euSkY2AYLs3h6M8Uf+KJYu78Fvyg4qf6xvqMWd5i0ERiF9zX5qxk+X6tJ6pVzDZE" crossorigin="anonymous">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -25,11 +23,39 @@
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
+    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.css" rel="stylesheet">
 
-
+    <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+
+
+
+    <style>
+
+        #calendar {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .day {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Additional Bootstrap Styles */
+        .mt-4 {
+            margin-top: 1.5rem !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -45,8 +71,8 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
-        <a href="library_teacher.html" class="navbar-brand">
-            <h1 class="m-0 text-primary"><i class="fa fa-book-reader me-3"></i>Blue Wings Kindergarten </h1>
+        <a href="activities_teacher.html" class="navbar-brand">
+            <h1 class="m-0 text-primary"><i class="fa fa-book-reader me-3"></i>Blue Wings Kindergarten</h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -55,8 +81,8 @@
             <div class="navbar-nav mx-auto">
 
                 <a href="guardian.php" class="nav-item nav-link ">Profile</a>
-                <a href="activities_teacher.html" class="nav-item nav-link ">Activities</a>
-                <a href="library_teacher.html" class="nav-item nav-link active ">library</a>
+                <a href="activities_teacher.html" class="nav-item nav-link active ">Activities</a>
+                <a href="library_teacher.html" class="nav-item nav-link ">library</a>
 
             </div>
             <a href="index.html" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
@@ -64,110 +90,105 @@
     </nav>
     <!-- Navbar End -->
 
-    <div class="container mt-5">
+
+    <!-- Activities Section -->
+    <section class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-
-                <!-- Book List -->
-                <div id="bookList" class="row row-cols-1 row-cols-md-3 g-3">
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/fairy-tales-jack-and-the-beanstalk.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Sample Book</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 3-5 years</p>
-                                <p class="card-text book-info text-success">Type: Story</p>
-                            </div>
-                        </div>
+            <!-- Part 1: Add Activity Form -->
+            <div class="col-md-6 mb-4">
+                <h2>Add Activity</h2>
+                <form id="addActivityForm">
+                    <div class="mb-3">
+                        <label for="activityName" class="form-label">Activity Name</label>
+                        <input type="text" class="form-control" id="activityName" required>
                     </div>
-                    <!-- Additional book cards go here -->
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/fairy-tales-jack-and-the-beanstalk.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Cinderella</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 4-8 years</p>
-                                <p class="card-text book-info text-success">Type: Fairy Tale</p>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="activityDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="activityDescription" rows="3"></textarea>
                     </div>
-
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/fairy-tales-jack-and-the-beanstalk.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Children's Poetry</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 2-6 years</p>
-                                <p class="card-text book-info text-success">Type: Poetry</p>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="fileUpload" class="form-label">Upload File (Image/Video)</label>
+                        <input type="file" class="form-control" id="fileUpload">
                     </div>
+                    <button type="button" class="btn btn-primary" onclick="addActivity()">Add Activity</button>
+                </form>
+            </div>
 
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/educational-alphabet.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Alphabet Adventures</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 3-6 years</p>
-                                <p class="card-text book-info text-success">Type: Educational</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Part 2: Show Activities -->
 
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="img/bedtime-stories.jpg" alt="Book Cover" class="card-img-top book-cover">
-                            <div class="card-body">
-                                <h5 class="card-title book-title">Bedtime Stories</h5>
-                                <p class="card-text book-info text-primary">Suitable Age: 1-4 years</p>
-                                <p class="card-text book-info text-success">Type: Short Stories</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Buttons and Form -->
-                <div class="mt-4">
-                    <div class="d-grid gap-2">
-                        <!-- Buttons to toggle form visibility -->
-                        <button type="button" class="btn btn-primary" onclick="toggleForm()">Add Book</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteBook()">Delete Book</button>
-                    </div>
-
-                    <!-- Add Book Form -->
-                    <div id="formContainer" class="mt-4" style="display: none;">
-                        <form id="addBookForm" class="add-book-form">
-
-                            <div class="mb-3">
-                                <label for="bookName" class="form-label">Book Name</label>
-                                <input type="text" class="form-control" id="bookName" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="suitableAge" class="form-label">Suitable Age</label>
-                                <input type="text" class="form-control" id="suitableAge" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="bookType" class="form-label">Book Type</label>
-                                <input type="text" class="form-control" id="bookType" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="imageInput" class="form-label">Upload cover image</label>
-                                <input type="file" class="form-control" id="imageInput" accept="image/*" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fileInput" class="form-label">Upload PDF</label>
-                                <input type="file" class="form-control" id="fileInput" accept=".pdf" required>
-                            </div>
-
-                            <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-primary" onclick="addBook()">DONE</button>
-                            </div>
-                        </form>
-                    </div>
+            <div class="activity-card card">
+                <img src="img/fcnpajbi.png" alt="Outdoor Adventure" class="card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">Outdoor Adventure</h3>
+                    <p class="card-text">
+                        Enjoy the great outdoors with our exciting outdoor adventure activity. Let the kids explore
+                        nature, learn about different plants and animals, and have a fun-filled day of exploration.
+                    </p>
+                    <!-- Add more details or buttons as needed -->
                 </div>
             </div>
+
+
+<!--             Part 3: Calendar-->
+            <h2 class="text-center mt-4">Weekly Activities Calendar</h2>
+            <div class="calendar">
+<!--                 Day 1-->
+                <div class="day border">
+                    <h5 class="mb-3">sunday</h5>
+                    <p>Activity 1</p>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+
+                <!-- Day 2 -->
+                <div class="day border">
+                    <h5 class="mb-3">Monday</h5>
+                    <p>Activity 2</p>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Day 3 -->
+                <div class="day border">
+                    <h5 class="mb-3">Tuesday</h5>
+                    <p>Activity 2</p>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Day 4 -->
+                <div class="day border">
+                    <h5 class="mb-3">Wednesday</h5>
+                    <p>Activity 2</p>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Day 5 -->
+                <div class="day border">
+                    <h5 class="mb-3">Thursday</h5>
+                    <p></p>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" onclick="alert('Update clicked')">Update</button>
+                        <button type="button" class="btn btn-primary" onclick="alert('Delete clicked')">Delete</button>
+                    </div>
+                </div>
+
+
         </div>
-    </div>
+        </div>
+    </section>
+
+
 
 
 
@@ -255,32 +276,6 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
-<script>
-    function toggleForm() {
-        var formContainer = document.getElementById('formContainer');
-        formContainer.style.display = 'block';
-    }
-
-    function deleteBook() {
-        // Implement delete book functionality here
-        alert('Delete Book functionality to be implemented.');
-    }
-
-    function addBook() {
-        // Implement add book functionality here
-        var imageInput = document.getElementById('imageInput');
-        var pdfInput = document.getElementById('fileInput');
-
-        var selectedImage = imageInput.files[0];
-        var selectedPDF = pdfInput.files[0];
-
-        if (selectedImage && selectedPDF) {
-            alert('Add Book functionality to be implemented.\nSelected Image: ' + selectedImage.name + '\nSelected PDF: ' + selectedPDF.name);
-        } else {
-            alert('Please select both an image and a PDF file.');
-        }
-    }
-</script>
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -289,7 +284,74 @@
 <script src="lib/waypoints/waypoints.min.js"></script>
 <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
+<!-- Template Javascript -->
 <script src="js/main.js"></script>
+<script>
+    // Placeholder function for adding activity (to be implemented)
+    function addActivity() {
+        var activityName = document.getElementById('activityName').value;
+        var activityDescription = document.getElementById('activityDescription').value;
+        var fileUpload = document.getElementById('fileUpload').files[0];
+
+        // Perform validation or additional processing as needed
+
+        // Display details in alert (replace with actual implementation)
+        alert('Activity Name: ' + activityName + '\nDescription: ' + activityDescription + '\nFile: ' + (fileUpload ? fileUpload.name : 'None'));
+    }
+
+    // Placeholder function for deleting activity (to be implemented)
+    function deleteActivity() {
+        alert('Activity deleted. (Not implemented)');
+    }
+
+    // Placeholder function for updating activity (to be implemented)
+    function updateActivity() {
+        alert('Activity updated. (Not implemented)');
+    }
+
+    // Placeholder function for adding calendar event (to be implemented)
+    function addCalendarEvent() {
+        alert('Calendar event added. (Not implemented)');
+    }
+
+    // Placeholder function for deleting calendar event (to be implemented)
+    function deleteCalendarEvent() {
+        alert('Calendar event deleted. (Not implemented)');
+    }
+
+    // Placeholder function for updating calendar event (to be implemented)
+    function updateCalendarEvent() {
+        alert('Calendar event updated. (Not implemented)');
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        // Dummy events for illustration
+        var events = [
+            {
+                title: 'Activity 1',
+                start: '2023-12-23T10:00:00',
+                end: '2023-12-23T12:00:00'
+            },
+            {
+                title: 'Activity 2',
+                start: '2023-12-24T14:00:00',
+                end: '2023-12-24T16:00:00'
+            }
+        ];
+
+        // Initialize FullCalendar
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: events
+        });
+    });
+
+</script>
 </body>
 
 </html>

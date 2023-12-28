@@ -1,4 +1,15 @@
 <?php
+global $conn;
+global $conn;
+global $pic;
+global $childCount;
+global $user_id;
+global $birthdate;
+global $name;
+global $result;
+global $phone;
+global $email;
+global $location;
 include('connect.php');
 session_start();
 
@@ -15,11 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($update_result) {
         echo "success";
-        exit(); // Stop execution after handling the update
+        // Stop execution after handling the update
     } else {
         echo "error";
-        exit(); // Stop execution after handling the error
+        // Stop execution after handling the error
     }
+    exit();
 }
 
 // If it's not a POST request, proceed with retrieving user information
@@ -43,26 +55,26 @@ if (isset($_SESSION['user_id'])) {
         WHERE c.P_ID = $user_id
     )";
 
-$result = mysqli_query($conn, $select);
+    $result = mysqli_query($conn, $select);
 
-if ($row = mysqli_fetch_array($result)) {
-    $email = $row['Email'];
-    $name = $row['Name'];
-    $location = $row['Location'];
-    $phone = $row['Phone'];
-    $pic = $row['pic'];
-    $childCount = $row['child_count'];
+    if ($row = mysqli_fetch_array($result)) {
+        $email = $row['Email'];
+        $name = $row['Name'];
+        $location = $row['Location'];
+        $phone = $row['Phone'];
+        $pic = $row['pic'];
+        $childCount = $row['child_count'];
 
-    // Output other user information as needed
-    echo "<h2 class='card-jobtitle' style='color: black'>Parent of $childCount child" . ($childCount == 1 ? "" : "ren") . "</h2>";
+        // Output other user information as needed
+        echo "<h2 class='card-jobtitle' style='color: black'>Parent of $childCount child" . ($childCount == 1 ? "" : "ren") . "</h2>";
 
 
+    } else {
+        echo "User not found in the database.";
+    }
 } else {
-echo "User not found in the database.";
-}
-} else {
-// Handle the case when the user_id session variable is not set
-echo "User not logged in.";
+    // Handle the case when the user_id session variable is not set
+    echo "User not logged in.";
 }
 ?>
 
@@ -122,7 +134,7 @@ echo "User not logged in.";
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
-        <a href="index.html" class="navbar-brand">
+        <a href="guardian.php" class="navbar-brand">
             <h1 class="m-0 text-primary"><i class="fa fa-book-reader me-3"></i>Blue Wings Kindergarten </h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -130,22 +142,13 @@ echo "User not logged in.";
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About Us</a>
-                <a href="classes.html" class="nav-item nav-link">Classes</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu rounded-0 rounded-bottom border-0 shadow-sm m-0">
-                        <a href="facility.html" class="dropdown-item">School Facilities</a>
-                        <a href="team.html" class="dropdown-item">Popular services</a>
-                        <a href="call-to-action.html" class="dropdown-item">Become A Teachers</a>
-                        <a href="appointment.html" class="dropdown-item">Make Appointment</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                    </div>
-                </div>
-                <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+
+                <a href="guardian.php" class="nav-item nav-link active">Profile</a>
+                <a href="activities_teacher.html" class="nav-item nav-link ">Activities</a>
+                <a href="library_parents.html" class="nav-item nav-link ">library</a>
+
             </div>
-            <a href="signup.php" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="index.html" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -163,143 +166,145 @@ echo "User not logged in.";
         <div class="card-main">
             <div class="card-section is-active" id="about">
                 <?php
-// Output child information dynamically
-while ($childRow = mysqli_fetch_array($result)) {
-    $childPic = $childRow['pic'];
-    $childName = $childRow['Child_Name'];
-    $childAge = $childRow['Child_Age'];
+                // Output child information dynamically
+                while ($childRow = mysqli_fetch_array($result)) {
+                    $childPic = $childRow['pic'];
+                    $childName = $childRow['Child_Name'];
+                    $childAge = $childRow['Child_Age'];
 
-    // Use absolute path for the image (replace with an actual URL)
-    $absoluteImagePath = "https://fastly.picsum.photos/id/23/200/200.jpg?hmac=IMR2f77CBqpauCb5W6kGzhwbKatX_r9IvgWj6n7FQ7c"; // Replace with an actual image URL
-    echo "<div class='column'>";
-                echo "<div class='card'>";
-                echo "<img src='$absoluteImagePath' alt='$childName' style='width:100%'>";
-                echo "<div class='container'>";
+                    // Use absolute path for the image (replace with an actual URL)
+                    $absoluteImagePath = "https://fastly.picsum.photos/id/23/200/200.jpg?hmac=IMR2f77CBqpauCb5W6kGzhwbKatX_r9IvgWj6n7FQ7c"; // Replace with an actual image URL
+                    echo "<div class='column'>";
+                    echo "<div class='card'>";
+                    echo "<img src='$absoluteImagePath' alt='$childName' style='width:100%'>";
+                    echo "<div class='container'>";
                     echo "<h2>$childName</h2>";
                     echo "<p class='title'>$childAge years old</p>";
                     echo "<p><button class='button'>More Info</button></p>";
                     echo "</div>";
-                echo "</div>";
-                echo "</div>";
-            }
-            ?>
+                    echo "</div>";
+                    echo "</div>";
+                }
+                ?>
 
 
-        </div>
-        <div class="card-section" id="contact">
-            <div class="card-content">
-                <div class="card-subtitle">CONTACT</div>
-                <div class="card-contact-wrapper">
-                    <div class="card-contact">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                            <circle cx="12" cy="10" r="3" /></svg>
-                        <?php echo $location; ?>
-                    </div>
-                    <div class="card-contact">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg><?php echo $phone; ?></div>
-                    <div class="card-contact">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                            <path d="M22 6l-10 7L2 6" /></svg>
-                        <?php echo $email; ?>
-                    </div>
-                    <button id="editContactBtn" class="contact-me">Edit my contact data</button>
-                </div>
             </div>
-        </div>
-        <div class="card-buttons">
-            <button data-section="#about" class="is-active">ABOUT</button>
-            <button data-section="#contact">CONTACT</button>
-        </div>
-    </div>
-</div>
-<script src="script.js"></script>
-
-
-<!-- Footer Start -->
-<div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            <div class="col-lg-3 col-md-6">
-                <h3 class="text-white mb-4">Get In Touch</h3>
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Rafedia Street, Nablus, Palestine</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+970 59-5678903</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>bluewings@example.com</p>
-                <div class="d-flex pt-2">
-
-                    <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h3 class="text-white mb-4">Quick Links</h3>
-                <a class="btn btn-link text-white-50" href="about.html">About Us</a>
-                <a class="btn btn-link text-white-50" href="contact.html">Contact Us</a>
-                <a class="btn btn-link text-white-50" href="">Our Services</a>
-                <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
-                <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h3 class="text-white mb-4">Photo Gallery</h3>
-                <div class="row g-2 pt-2">
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="img/classes-1.jpg" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="img/classes-2.jpg" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="img/classes-3.jpg" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="img/classes-4.png" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="img/classes-5.png" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="img/classes-6.jpg" alt="">
+            <div class="card-section" id="contact">
+                <div class="card-content">
+                    <div class="card-subtitle">CONTACT</div>
+                    <div class="card-contact-wrapper">
+                        <div class="card-contact">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                <circle cx="12" cy="10" r="3" /></svg>
+                            <?php echo $location; ?>
+                        </div>
+                        <div class="card-contact">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg><?php echo $phone; ?></div>
+                        <div class="card-contact">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <path d="M22 6l-10 7L2 6" /></svg>
+                            <?php echo $email; ?>
+                        </div>
+                        <button id="editContactBtn" class="contact-me">Edit my contact data</button>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <h3 class="text-white mb-4">Newsletter</h3>
-                <p>Didn't you join us until now !!! hurry up and enjoy :)</p>
-                <div class="position-relative mx-auto" style="max-width: 400px;">
-                    <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                    <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                </div>
+            <div class="card-buttons">
+                <button data-section="#about" class="is-active">ABOUT</button>
+                <button data-section="#contact">CONTACT</button>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">2023 Kindergarten blue Wings</a>,All Right Reserved.
+<!--    <script src="script.js"></script>-->
 
-                    <!-- Designed By <a class="border-bottom" >Muna & Lama</a> -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="text-white mb-4">Get In Touch</h3>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Rafedia Street, Nablus, Palestine</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+970 59-5678903</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>bluewings@example.com</p>
+                    <div class="d-flex pt-2">
+
+                        <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
+                    </div>
                 </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="index.html">Home</a>
-                        <a href="about.html">about</a>
-                        <a href="contact.html">contact</a>
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="text-white mb-4">Quick Links</h3>
+                    <a class="btn btn-link text-white-50" href="about.html">About Us</a>
+                    <a class="btn btn-link text-white-50" href="contact.html">Contact Us</a>
+                    <a class="btn btn-link text-white-50" href="">Our Services</a>
+                    <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
+                    <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="text-white mb-4">Photo Gallery</h3>
+                    <div class="row g-2 pt-2">
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-1.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-3.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-4.png" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-5.png" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded bg-light p-1" src="img/classes-6.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 class="text-white mb-4">Newsletter</h3>
+                    <p>Didn't you join us until now !!! hurry up and enjoy :)</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <label>
+                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        </label>
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">2023 Kindergarten blue Wings</a>,All Right Reserved.
+
+                        <!-- Designed By <a class="border-bottom" >Muna & Lama</a> -->
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-menu">
+                            <a href="index.html">Home</a>
+                            <a href="about.html">about</a>
+                            <a href="contact.html">contact</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Footer End -->
+    <!-- Footer End -->
 
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
 <!-- JavaScript Libraries -->
@@ -326,21 +331,21 @@ while ($childRow = mysqli_fetch_array($result)) {
                     method: "POST",
                     data: {
                         user_id: <?php echo $user_id; ?>,
-                new_email: newEmail,
-                    new_location: newLocation,
-                    new_phone: newPhone
-            },
-                success: function (response) {
-                    if (response === "success") {
-                        alert("Contact information updated successfully.");
+                        new_email: newEmail,
+                        new_location: newLocation,
+                        new_phone: newPhone
+                    },
+                    success: function (response) {
+                        if (response === "success") {
+                            alert("Contact information updated successfully.");
 
-                        // Reload the page after updating
-                        location.reload();
-                    } else {
-                        alert("Failed to update contact information.");
+                            // Reload the page after updating
+                            location.reload();
+                        } else {
+                            alert("Failed to update contact information.");
+                        }
                     }
-                }
-            });
+                });
             }
         });
     });
