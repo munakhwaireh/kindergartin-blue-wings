@@ -1,3 +1,84 @@
+<?php
+global $conn;
+include('connect.php');
+session_start();
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['getStartedForm'])) {
+    $id=$_POST['ID'];
+    $name = $_POST['name'];
+    $age = $_POST['Age'];
+    $healthInfo = $_POST['Health_info'];
+    $city = $_POST['City'];
+    $tId = $_POST['T-ID'];
+    $pId = $_POST['P-ID'];
+
+
+
+    // Insert new child into the database
+    $sql = "INSERT INTO children (ID,name, age, healthInfo, City, T_ID, P_ID,pic) 
+            VALUES ('$id','$name', '$age', '$healthInfo', '$city', '$tId', '$pId','')";
+
+//    mysqli_query($conn, $sql);
+
+    if ($conn->query($sql) === TRUE) {
+       // echo "Child added successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+elseif(isset($_POST['deleteform'])){
+    // Handle delete form submission
+    $IdToDelete = $_POST['child_id'];
+
+    // Perform the database deletion with prepared statements
+    $deleteSql = "DELETE FROM children WHERE ID = '$IdToDelete'";
+
+    if ($conn->query($deleteSql) === TRUE) {
+        echo "Status deleted successfully";
+    } else {
+        echo "Error updating status: " . $conn->error;
+    }
+    header('location:child_table.php');
+}elseif(isset($_POST['updateform'])){
+
+    // Handle update form submission
+    $idToUpdate = $_POST['ID2'];
+    $name = $_POST['name1'];
+    $age = $_POST['Age2'];
+    $healthInfo = $_POST['Health_info2'];
+    $city = $_POST['City2'];
+    $tId = $_POST['T-ID2'];
+    $pId = $_POST['P-ID2'];
+
+    // Update the child in the database
+    $updateSql = "UPDATE children SET 
+                      name = '$name', 
+                      age = '$age', 
+                      healthInfo = '$healthInfo', 
+                      City = '$city', 
+                      T_ID = '$tId', 
+                      P_ID = '$pId' 
+                      WHERE ID = '$idToUpdate'";
+
+    if ($conn->query($updateSql) === TRUE) {
+        echo "Child updated successfully";
+    } else {
+        echo "Error updating child: " . $conn->error;
+    }
+    header('location:child_table.php');
+
+}
+
+
+}
+
+$conn->close();
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +134,7 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
-        <a href="child_table.html" class="navbar-brand">
+        <a href="child_table.php" class="navbar-brand">
             <h1 class="m-0 text-primary"><i class="fas fa-school m-3"></i>Blue Wings Kindergarten </h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -66,7 +147,7 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tables</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom border-0 shadow-sm m-0">
-                        <a href="teach_table.html" class="dropdown-item">Teachers</a>
+                        <a href="teach_table.php" class="dropdown-item">Teachers</a>
                         <a href="child_table.html" class="dropdown-item">Children</a>
                     </div>
 
@@ -98,103 +179,45 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Sara Ahmed</td>
-                    <td>2</td>
-                    <td>Good</td>
-                    <td>Nablus</td>
-                    <td>2</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>John Doe</td>
-                    <td>3</td>
-                    <td>Excellent</td>
-                    <td>Jerusalem</td>
-                    <td>3</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Alice Smith</td>
-                    <td>4</td>
-                    <td>Average</td>
-                    <td>Ramallah</td>
-                    <td>1</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Mohammed Hassan</td>
-                    <td>2</td>
-                    <td>Good</td>
-                    <td>Bethlehem</td>
-                    <td>5</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Emily Johnson</td>
-                    <td>3</td>
-                    <td>Excellent</td>
-                    <td>Nablus</td>
-                    <td>12</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Samar Saleh</td>
-                    <td>2</td>
-                    <td>Good</td>
-                    <td>Jerusalem</td>
-                    <td>1</td>
-                    <td>8</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Lily Brown</td>
-                    <td>2</td>
-                    <td>Excellent</td>
-                    <td>Ramallah</td>
-                    <td>2</td>
-                    <td>9</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>Maya Ali</td>
-                    <td>3</td>
-                    <td>Average</td>
-                    <td>Bethlehem</td>
-                    <td>24</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>9</td>
-                    <td>Nour Ahmed</td>
-                    <td>5</td>
-                    <td>Good</td>
-                    <td>Nablus</td>
-                    <td>1</td>
-                    <td>7</td>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>Sophia Davis</td>
-                    <td>4</td>
-                    <td>Excellent</td>
-                    <td>Jerusalem</td>
-                    <td>21</td>
-                    <td>6</td>
-                </tr>
+                <?php
+                global $conn;
+                include('connect.php');
+
+
+                // Check connection
+                if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+                }
+
+                $sql = "SELECT * FROM children";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                // Output data of each row
+                while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                    echo "<td>" . $row["ID"] . "</td>";
+                    echo "<td>" . $row["name"] . "</td>";
+                    echo "<td>" . $row["age"] . "</td>";
+                    echo "<td>" . $row["healthInfo"] . "</td>";
+                    echo "<td>" . $row["City"] . "</td>";
+                    echo "<td>" . $row["T_ID"] . "</td>";
+                    echo "<td>" . $row["P_ID"] . "</td>";
+                    echo "</tr>";
+                }
+                } else {
+                echo "<tr><td colspan='11'>No children found</td></tr>";
+                }
+
+                $conn->close();
+                ?>
                 </tbody>
 
             </table>
             <!-- Buttons -->
             <div class="mt-4">
                 <button type="button" class="btn btn-primary me-2" onclick="showForm()">Add</button>
-                <button type="button" class="btn btn-danger me-2" onclick="showForm2()">Delete</button>
+                <button type="button" class="btn btn-danger me-2" onclick="showForm22()">Delete</button>
                 <button type="button" class="btn btn-success" onclick="showForm3()">Update</button>
             </div>
         </div>
@@ -206,86 +229,86 @@
         <div class="h-100 d-flex flex-column justify-content-center p-5">
             <!-- Your form goes here -->
             <!-- Your form goes here -->
-            <form id="getStartedForm" style="display: none;">
+            <form id="getStartedForm"  method="post" style="display: none;">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" required>
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
                 <div class="mb-3">
                     <label for="ID" class="form-label">ID</label>
-                    <input type="text" class="form-control" id="ID" required>
+                    <input type="text" class="form-control" id="ID" name="ID" required>
                 </div>
                 <div class="mb-3">
                     <label for="Age" class="form-label">Age</label>
-                    <input type="text" class="form-control" id="Age" required>
+                    <input type="text" class="form-control" id="Age" name="Age" required>
                 </div>
                 <div class="mb-3">
                     <label for="Health_info" class="form-label">Health info</label>
-                    <input type="text" class="form-control" id="Health_info" required>
+                    <input type="text" class="form-control" id="Health_info" name="Health_info" required>
                 </div>
                 <div class="mb-3">
                     <label for="City" class="form-label">City</label>
-                    <input type="text" class="form-control" id="City" required>
+                    <input type="text" class="form-control" id="City" name="City" required>
                 </div>
                 <div class="mb-3">
                     <label for="T-ID" class="form-label">Teacher id</label>
-                    <input type="text" class="form-control" id="T-ID" required>
+                    <input type="text" class="form-control" id="T-ID" name="T-ID" required>
                 </div>
                 <div class="mb-3">
-                    <label for="P-ID" class="form-label">Teacher id</label>
-                    <input type="text" class="form-control" id="P-ID" required>
+                    <label for="P-ID" class="form-label">Parent id</label>
+                    <input type="text" class="form-control" id="P-ID"  name="P-ID" required>
                 </div>
 
 
                 <!-- Add other form fields as needed -->
 
-                <button type="submit" class="btn btn-primary" onclick="submitForm()">Done</button>
+                <button type="submit" class="btn btn-primary" id="getStartedForm2" name="getStartedForm2" onclick="submitForm()">Done</button>
             </form>
             <!-- delete form -->
-            <form id="getStartedForm2" style="display: none;">
+            <form id="deleteform" method="post" style="display: none;">
                 <div class="mb-3">
                     <label for="child_id" class="form-label">Child ID</label>
-                    <input type="text" class="form-control" id="child_id" required>
+                    <input type="text" class="form-control" name="child_id" id="child_id" required>
                 </div>
 
 
-                <button type="submit" class="btn btn-primary" onclick="submitForm2()">Done</button>
+                <button type="submit" class="btn btn-primary" id="deleteform" name="deleteform" onclick="submitForm2()">Done</button>
             </form>
 
             <!--update  -->
-            <form id="getStartedForm3" style="display: none;">
+            <form id="updateform" method="post" style="display: none;">
                 <div class="mb-3">
                     <label for="name1" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name1" required>
+                    <input type="text" class="form-control" name="name1" id="name1" required>
                 </div>
                 <div class="mb-3">
                     <label for="ID2" class="form-label">ID</label>
-                    <input type="text" class="form-control" id="ID2" required>
+                    <input type="text" class="form-control"  name="ID2" id="ID2" required>
                 </div>
                 <div class="mb-3">
                     <label for="Age2" class="form-label">Age</label>
-                    <input type="text" class="form-control" id="Age2" required>
+                    <input type="text" class="form-control" name="Age2" id="Age2" required>
                 </div>
                 <div class="mb-3">
                     <label for="Health_info2" class="form-label">Health info</label>
-                    <input type="text" class="form-control" id="Health_info2" required>
+                    <input type="text" class="form-control" name="Health_info2" id="Health_info2" required>
                 </div>
                 <div class="mb-3">
                     <label for="City2" class="form-label">City</label>
-                    <input type="text" class="form-control" id="City2" required>
+                    <input type="text" class="form-control" name="City2" id="City2" required>
                 </div>
                 <div class="mb-3">
                     <label for="T-ID2" class="form-label">Teacher id</label>
-                    <input type="text" class="form-control" id="T-ID2" required>
+                    <input type="text" class="form-control" name="T-ID2" id="T-ID2" required>
                 </div>
                 <div class="mb-3">
-                    <label for="P-ID2" class="form-label">Teacher id</label>
-                    <input type="text" class="form-control" id="P-ID2" required>
+                    <label for="P-ID2" class="form-label">Parent id</label>
+                    <input type="text" class="form-control" name="P-ID2" id="P-ID2" required>
                 </div>
 
                 <!-- Add other form fields as needed -->
 
-                <button type="submit" class="btn btn-primary" onclick="submitForm3()">Done</button>
+                <button type="submit" class="btn btn-primary" name="updateform" id="updateform" onclick="submitForm3()">Done</button>
             </form>
 
 
@@ -408,25 +431,25 @@
         alert("Form submitted! (Note: This is a placeholder for actual form submission logic)");
     }
 
-    function showForm2() {
-        document.getElementById("getStartedForm2").style.display = "block";
+    function showForm22() {
+        document.getElementById("deleteform").style.display = "block";
     }
 
     function submitForm2() {
         // You can add your form submission logic here
 
-        document.getElementById("getStartedForm2" ).style.display = "none";
+        document.getElementById("deleteform" ).style.display = "none";
         alert("Form submitted! (Note: This is a placeholder for actual form submission logic)");
     }
 
     function showForm3() {
-        document.getElementById("getStartedForm3").style.display = "block";
+        document.getElementById("updateform").style.display = "block";
     }
 
     function submitForm3() {
         // You can add your form submission logic here
 
-        document.getElementById("getStartedForm3" ).style.display = "none";
+        document.getElementById("updateform" ).style.display = "none";
         alert("Form submitted! (Note: This is a placeholder for actual form submission logic)");
     }
 </script>

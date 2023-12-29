@@ -1,3 +1,26 @@
+<?php
+global $conn;
+include('connect.php'); // Include your database connection file
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get the ID and update the status based on the action
+    $id = $_POST['ID'];
+    $action = $_POST['action'];
+
+    $status = ($action === 'accept') ? 'accept' : 'deny';
+
+    $sql = "UPDATE appointments SET acceptdeny = '$status' WHERE ID = $id";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Status updated successfully";
+    } else {
+        echo "Error updating status: " . $conn->error;
+    }
+
+    $conn->close();
+    exit; // Stop further execution
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +59,7 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 
@@ -66,8 +90,8 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tables</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom border-0 shadow-sm m-0">
-                        <a href="teach_table.html" class="dropdown-item">Teachers</a>
-                        <a href="child_table.html" class="dropdown-item">Children</a>
+                        <a href="teach_table.php" class="dropdown-item">Teachers</a>
+                        <a href="child_table.php" class="dropdown-item">Children</a>
                     </div>
 
                 </div>
@@ -151,8 +175,8 @@
                         <label for="ID" class="form-label">ID</label>
                         <input type="text" class="form-control" id="ID" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" onclick="submitForm2()">accept</button>
-                    <button type="submit" class="btn btn-primary" onclick="submitForm2()">deny</button>
+                    <button type="button" class="btn btn-primary" onclick="submitForm2('accept')">Accept</button>
+                    <button type="button" class="btn btn-danger" onclick="submitForm2('deny')">Deny</button>
                 </form>
 
 <!--                    </div>-->
@@ -277,12 +301,28 @@
         document.getElementById("getStartedForm2").style.display = "block";
     }
 
-    function submitForm2() {
-        // You can add your form submission logic here
 
-        document.getElementById("getStartedForm2" ).style.display = "none";
-        alert("Form submitted! (Note: This is a placeholder for actual form submission logic)");
+    function submitForm2(action) {
+        var id = $("#ID").val();
+
+        // Use AJAX to submit the form data based on the action (accept or deny)
+        $.ajax({
+            type: "POST",
+            url: "appointments-acceptance.php",
+            data: { ID: id, action: action },
+            success: function (response) {
+                // Handle the response, e.g., show a success message
+                response="An response email has been sent";
+                alert(response);
+                document.getElementById("getStartedForm2").style.display = "none";
+            },
+            error: function (error) {
+                // Handle errors, e.g., show an error message
+                alert("Error updating status: " + error.responseText);
+            }
+        });
     }
+</script>
 
 
 </script>

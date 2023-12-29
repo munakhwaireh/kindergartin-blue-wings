@@ -1,3 +1,101 @@
+<?php
+global $conn;
+include('connect.php');
+session_start();
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['getStartedForm'])) {
+        $name = mysqli_real_escape_string($conn, $_POST['name']);
+        $birthdate = mysqli_real_escape_string($conn, $_POST['birthdate']);
+        $hiringDate = mysqli_real_escape_string($conn, $_POST['hiringDate']);
+        $salary = mysqli_real_escape_string($conn, $_POST['salary']);
+        $childNumber = mysqli_real_escape_string($conn, $_POST['childNumber']);
+        $teacherId = mysqli_real_escape_string($conn, $_POST['teacherId']);
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+        $password = ($_POST['password']);
+
+        // Perform the database insertion with prepared statements
+        $sql = "INSERT INTO teacher (name, birthdate, hiringDate, salary, childNum, ID, pic, email, Phone, password) 
+                VALUES ('$name', '$birthdate', '$hiringDate', '$salary', '$childNumber', '$teacherId', '', '$email', '$phone', '$password')";
+        mysqli_query($conn, $sql);
+         header('location:teach_table.php');
+
+        if ($conn->query($sql) === TRUE) {
+            echo "Status updated successfully";
+        } else {
+            echo "Error updating status: " . $conn->error;
+        }
+
+
+    }
+    else if (isset($_POST['getStartedForm2'])) {
+        // Handle delete form submission
+        $teacherIdToDelete = mysqli_real_escape_string($conn, $_POST['teacher_id']);
+
+        // Perform the database deletion with prepared statements
+        $deleteSql = "DELETE FROM teacher WHERE ID = '$teacherIdToDelete'";
+        mysqli_query($conn, $deleteSql);
+        if ($conn->query($deleteSql) === TRUE) {
+            echo "Status deleted successfully";
+        } else {
+            echo "Error updating status: " . $conn->error;
+        }
+        header('location:teach_table.php');
+    }
+
+}
+?>
+<?php
+ global $conn;
+include('connect.php');
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(isset($_POST['getStartedForm13'])){
+
+
+    // Handle update form submission
+    $teacherIdToUpdate = mysqli_real_escape_string($conn, $_POST['teacherIdToUpdate']);
+    $name = mysqli_real_escape_string($conn, $_POST['name2']);
+    $birthdate = mysqli_real_escape_string($conn, $_POST['birthdate2']);
+    $hiringDate = mysqli_real_escape_string($conn, $_POST['hiringDate2']);
+    $salary = mysqli_real_escape_string($conn, $_POST['salary2']);
+    $childNumber = mysqli_real_escape_string($conn, $_POST['childNumber2']);
+    $email = mysqli_real_escape_string($conn, $_POST['email2']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone2']);
+    $password = ($_POST['password2']);
+
+    // Perform the database update with prepared statements
+    $updateSql = "UPDATE teacher SET
+                  name = '$name',
+                  birthdate = '$birthdate',
+                  hiringDate = '$hiringDate',
+                  salary = '$salary',
+                  childNum = '$childNumber',
+                  ID = '$teacherIdToUpdate',
+                  pic= '',
+                  email = '$email',
+                  Phone = '$phone',
+                  password = '$password'
+                  WHERE ID = '$teacherIdToUpdate'";
+
+        mysqli_query($conn, $updateSql);
+        if ($conn->query($updateSql) === TRUE) {
+            echo "Status updated successfully";
+        } else {
+            echo "Error updating status: " . $conn->error;
+        }
+}}
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +115,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@600&family=Lobster+Two:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-euSkY2AYLs3h6M8Uf+KJYu78Fvyg4qf6xvqMWd5i0ERiF9zX5qxk+X6tJ6pVzDZE" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -26,6 +125,16 @@
     <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.theme.default.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- Owl Carousel JS -->
+    <script src="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
+
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -66,8 +175,8 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tables</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom border-0 shadow-sm m-0">
-                        <a href="teach_table.html" class="dropdown-item">Teachers</a>
-                        <a href="child_table.html" class="dropdown-item">Children</a>
+                        <a href="teach_table.php" class="dropdown-item">Teachers</a>
+                        <a href="child_table.php" class="dropdown-item">Children</a>
                     </div>
 
                 </div>
@@ -100,157 +209,42 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Add rows with teacher data here -->
-                <tr>
-                    <td>Aleen Yaseen</td>
-                    <td>2002-12-06</td>
-                    <td>2023-10-24</td>
-                    <td>2500</td>
-                    <td>5</td>
-                    <td>1</td>
 
-                    <td>aleen@yahoo.com</td>
-                    <td></td>
-                    <td>12345</td>
-                </tr>
-                <tr>
-                    <td>Tasneem Jawabreh</td>
-                    <td>2000-01-04</td>
-                    <td>2023-02-06</td>
-                    <td>2500</td>
-                    <td>3</td>
-                    <td>2</td>
 
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Wafaa Jawad</td>
-                    <td>2003-08-17</td>
-                    <td>2023-10-24</td>
-                    <td>1000</td>
-                    <td>8</td>
-                    <td>3</td>
+                <?php
+                global $conn;
+                include('connect.php');
 
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Sami Subhi</td>
-                    <td>2002-12-06</td>
-                    <td>2023-10-24</td>
-                    <td>2500</td>
-                    <td>6</td>
-                    <td>5</td>
 
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Rana Ali</td>
-                    <td>1995-08-15</td>
-                    <td>2022-05-12</td>
-                    <td>3000</td>
-                    <td>8</td>
-                    <td>9</td>
+                // Check connection
+                if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+                }
 
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Ahmad Saleh</td>
-                    <td>1980-03-28</td>
-                    <td>2021-02-10</td>
-                    <td>3500</td>
-                    <td>10</td>
-                    <td>12</td>
+                $sql = "SELECT * FROM teacher";
+                $result = $conn->query($sql);
 
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Lina Mahmoud</td>
-                    <td>1998-06-02</td>
-                    <td>2023-01-15</td>
-                    <td>2800</td>
-                    <td>5</td>
-                    <td>15</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Majd Abu-Hassan</td>
-                    <td>1985-11-09</td>
-                    <td>2022-09-30</td>
-                    <td>3200</td>
-                    <td>7</td>
-                    <td>18</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Dana Khaled</td>
-                    <td>1992-04-18</td>
-                    <td>2021-11-05</td>
-                    <td>2700</td>
-                    <td>4</td>
-                    <td>21</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Yousef Hamed</td>
-                    <td>1977-09-03</td>
-                    <td>2023-03-20</td>
-                    <td>3000</td>
-                    <td>9</td>
-                    <td>24</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Rasha Awad</td>
-                    <td>1990-12-15</td>
-                    <td>2022-08-12</td>
-                    <td>3300</td>
-                    <td>6</td>
-                    <td>27</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Khaled Nasser</td>
-                    <td>1988-07-21</td>
-                    <td>2021-07-18</td>
-                    <td>2900</td>
-                    <td>8</td>
-                    <td>30</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Hala Mansour</td>
-                    <td>1983-02-09</td>
-                    <td>2023-06-25</td>
-                    <td>3100</td>
-                    <td>7</td>
-                    <td>33</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <!-- Add other rows similarly for each teacher -->
+                if ($result->num_rows > 0) {
+                // Output data of each row
+                while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                    echo "<td>" . $row["name"] . "</td>";
+                    echo "<td>" . $row["birthdate"] . "</td>";
+                    echo "<td>" . $row["hiringDate"] . "</td>";
+                    echo "<td>" . $row["salary"] . "</td>";
+                    echo "<td>" . $row["childNum"] . "</td>";
+                    echo "<td>" . $row["ID"] . "</td>";
+                    echo "<td>" . $row["email"] . "</td>";
+                    echo "<td>" . $row["Phone"] . "</td>";
+                    echo "<td>" . $row["password"] . "</td>";
+                    echo "</tr>";
+                }
+                } else {
+                echo "<tr><td colspan='11'>No teachers found</td></tr>";
+                }
+
+                $conn->close();
+                ?>
                 </tbody>
             </table>
             <!-- Buttons -->
@@ -268,99 +262,98 @@
         <div class="h-100 d-flex flex-column justify-content-center p-5">
             <!-- Your form goes here -->
             <!-- Your form goes here -->
-            <form id="getStartedForm" style="display: none;">
+            <form id="getStartedForm" name="getStartedForm" method= "post" action="teach_table.php" style="display: none;">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" required>
+                    <input type="text" class="form-control" name="name" id="name" required>
                 </div>
                 <div class="mb-3">
                     <label for="birthdate" class="form-label">Birthdate</label>
-                    <input type="date" class="form-control" id="birthdate" required>
+                    <input type="date" class="form-control" name="birthdate" id="birthdate" required>
                 </div>
                 <div class="mb-3">
                     <label for="hiringDate" class="form-label">Hiring Date</label>
-                    <input type="date" class="form-control" id="hiringDate" required>
+                    <input type="date" class="form-control" name="hiringDate" id="hiringDate" required>
                 </div>
                 <div class="mb-3">
                     <label for="salary" class="form-label">Salary</label>
-                    <input type="number" class="form-control" id="salary" required>
+                    <input type="number" class="form-control" name="salary" id="salary" required>
                 </div>
                 <div class="mb-3">
                     <label for="childNumber" class="form-label">Child Number</label>
-                    <input type="number" class="form-control" id="childNumber" required>
+                    <input type="number" class="form-control" name="childNumber" id="childNumber" required>
                 </div>
                 <div class="mb-3">
                     <label for="teacherId" class="form-label">Teacher ID (T ID)</label>
-                    <input type="text" class="form-control" id="teacherId" required>
+                    <input type="text" class="form-control" name="teacherId" id="teacherId" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" required>
+                    <input type="email" class="form-control" name="email" id="email" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Phone</label>
-                    <input type="tel" class="form-control" id="phone" required>
+                    <input type="tel" class="form-control" name="phone" id="phone" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" required>
+                    <input type="password" class="form-control" name="password" id="password" required>
                 </div>
                 <!-- Add other form fields as needed -->
 
-                <button type="submit" class="btn btn-primary" onclick="submitForm()">Done</button>
+                <button type="submit" class="btn btn-primary" name="getStartedForm" id="getStartedForm1" >Done</button>
             </form>
-            <!-- delete form -->
-            <form id="getStartedForm2" style="display: none;">
+
+            <!-- Delete Teacher Form -->
+            <form id="getStartedForm2" method="post" style="display: none;">
                 <div class="mb-3">
-                    <label for="teacherId" class="form-label">Teacher ID</label>
-                    <input type="text" class="form-control" id="teacher_id" required>
+                    <label for="teacher_id" class="form-label">Teacher ID</label>
+                    <input type="text" class="form-control" name="teacher_id" id="teacher_id" required>
                 </div>
 
-
-                <button type="submit" class="btn btn-primary" onclick="submitForm2()">Done</button>
+                <button type="submit" class="btn btn-primary" id="getStartedForm2" name="getStartedForm2" >Done</button>
             </form>
 
             <!--update  -->
-            <form id="getStartedForm3" style="display: none;">
+            <form id="getStartedForm13" name="getStartedForm13" style="display: none;" method="post" action="teach_table.php">
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" required>
+                    <label for="teacherIdToUpdate" class="form-label">Teacher ID to Update</label>
+                    <input type="text" class="form-control" name="teacherIdToUpdate" id="teacherIdToUpdate" required>
                 </div>
                 <div class="mb-3">
-                    <label for="birthdate" class="form-label">Birthdate</label>
-                    <input type="date" class="form-control"  required>
+                    <label for="name2" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name2" name="name2" required>
                 </div>
                 <div class="mb-3">
-                    <label for="hiringDate" class="form-label">Hiring Date</label>
-                    <input type="date" class="form-control" required>
+                    <label for="birthdate2" class="form-label">Birthdate</label>
+                    <input type="date" class="form-control" id="birthdate2" name="birthdate2" required>
                 </div>
                 <div class="mb-3">
-                    <label for="salary" class="form-label">Salary</label>
-                    <input type="number" class="form-control" required>
+                    <label for="hiringDate2" class="form-label">Hiring Date</label>
+                    <input type="date" class="form-control" name="hiringDate2" id="hiringDate2" required>
                 </div>
                 <div class="mb-3">
-                    <label for="childNumber" class="form-label">Child Number</label>
-                    <input type="number" class="form-control"  required>
+                    <label for="salary2" class="form-label">Salary</label>
+                    <input type="number" class="form-control" name="salary2" id="salary2" required>
                 </div>
                 <div class="mb-3">
-                    <label for="teacherId" class="form-label">Teacher ID (T ID)</label>
-                    <input type="text" class="form-control" required>
+                    <label for="childNumber2" class="form-label">Child Number</label>
+                    <input type="number" class="form-control" name="childNumber2" id="childNumber2" required>
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control"required>
+                    <label for="email2" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email2" id="email2" required>
                 </div>
                 <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="tel" class="form-control"  required>
+                    <label for="phone2" class="form-label">Phone</label>
+                    <input type="tel" class="form-control" name="phone2" id="phone2" required>
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control"  required>
+                    <label for="password2" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password2" id="password2" required>
                 </div>
                 <!-- Add other form fields as needed -->
-
-                <button type="submit" class="btn btn-primary" onclick="submitForm3()">Done</button>
+                <button type="submit" class="btn btn-primary"  id="getStartedForm13" name="getStartedForm13" onclick="submitForm3()">Done</button>
             </form>
 
 
@@ -476,12 +469,16 @@
         document.getElementById("getStartedForm").style.display = "block";
     }
 
-    function submitForm() {
-        // You can add your form submission logic here
 
-        document.getElementById("getStartedForm" ).style.display = "none";
-        alert("Form submitted! (Note: This is a placeholder for actual form submission logic)");
+    function submitForm(event) {
+
+        document.getElementById("getStartedForm").style.display = "none";
+        alert("Form submitted! ");
     }
+
+
+
+
 
     function showForm2() {
         document.getElementById("getStartedForm2").style.display = "block";
@@ -495,13 +492,13 @@
     }
 
     function showForm3() {
-        document.getElementById("getStartedForm3").style.display = "block";
+        document.getElementById("getStartedForm13").style.display = "block";
     }
 
     function submitForm3() {
         // You can add your form submission logic here
 
-        document.getElementById("getStartedForm3" ).style.display = "none";
+        document.getElementById("getStartedForm13" ).style.display = "none";
         alert("Form submitted! (Note: This is a placeholder for actual form submission logic)");
     }
 </script>
