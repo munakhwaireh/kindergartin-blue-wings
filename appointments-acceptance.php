@@ -53,7 +53,7 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
-        <a href="appointments-acceptance.html" class="navbar-brand">
+        <a href="appointments-acceptance.php" class="navbar-brand">
             <h1 class="m-0 text-primary"><i class="fas fa-school m-3"></i>Blue Wings Kindergarten </h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -71,7 +71,7 @@
                     </div>
 
                 </div>
-                <a href="appointments-acceptance.html" class="nav-item nav-link active">Appointments</a>
+                <a href="appointments-acceptance.php" class="nav-item nav-link active">Appointments</a>
 
             </div>
         </div>
@@ -79,6 +79,90 @@
 
     </nav>
     <!-- Navbar End -->
+
+    <!-- Content Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <!-- Children Table -->
+            <h2 class="mb-4">Appointment requests</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Accept/Deny</th>
+                    <th>Guardian Name</th>
+                    <th>Email</th>
+                    <th>Child Name</th>
+                    <th>Child Age</th>
+                    <th>Message</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Use PHP or other server-side language to fetch and display data from the database -->
+                <?php
+                global $conn;
+                include('connect.php');
+
+
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                $sql = "SELECT * FROM appointments";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row["ID"] . "</td>";
+                        echo "<td>" . $row["Date"] . "</td>";
+                        echo "<td>" . $row["acceptdeny"] . "</td>";
+                        echo "<td>" . $row["guardian-name"] . "</td>";
+                        echo "<td>" . $row["email"] . "</td>";
+                        echo "<td>" . $row["child-name"] . "</td>";
+                        echo "<td>" . $row["child-age"] . "</td>";
+                        echo "<td>" . $row["message"] . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='11'>No appointments found</td></tr>";
+                }
+
+                $conn->close();
+                ?>
+
+
+                </tbody>
+            </table>
+            <!-- Buttons -->
+            <div class="mt-4">
+
+                <button type="button" class="btn btn-danger me-2" onclick="showForm2()">update</button>
+                <!-- forms -->
+                <br><br>
+
+<!--            <div class="h-100 d-flex flex-column justify-content-center p-5">-->
+                <!-- update form -->
+                <form id="getStartedForm2" style="display: none;">
+                    <div class="mb-3">
+                        <label for="ID" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="ID" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="submitForm2()">accept</button>
+                    <button type="submit" class="btn btn-primary" onclick="submitForm2()">deny</button>
+                </form>
+
+<!--                    </div>-->
+
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Content End -->
 
 
 
@@ -185,5 +269,23 @@
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
+
+<script>
+
+
+    function showForm2() {
+        document.getElementById("getStartedForm2").style.display = "block";
+    }
+
+    function submitForm2() {
+        // You can add your form submission logic here
+
+        document.getElementById("getStartedForm2" ).style.display = "none";
+        alert("Form submitted! (Note: This is a placeholder for actual form submission logic)");
+    }
+
+
+</script>
+
 </body>
 </html>
