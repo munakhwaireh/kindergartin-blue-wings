@@ -1,3 +1,34 @@
+<?php
+global $conn;
+include('connect.php');
+session_start();
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['submitform'])) {
+        // Get form data
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $subject = $_POST['subject'];
+        $message = $_POST['message'];
+
+        // Prepare and execute SQL query
+        $sql = "INSERT INTO `feedbacks` (`name`, `email`, `subject`, `message`) VALUES ('$name', '$email', '$subject', '$message')";
+
+        if ($conn->query($sql) === TRUE) {
+            $last_inserted_id = $conn->insert_id;
+            echo "Your feedback added successfully. ID: $last_inserted_id";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -121,34 +152,34 @@
                         <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
                             <div class="h-100 d-flex flex-column justify-content-center p-5">
                                 <p class="mb-4">Connect with us effortlessly! Use our contact form below to share your thoughts, inquiries, or feedback. We value your messages and look forward to hearing from you at Blue Wings.</p>
-                                <form>
+                                <form method="post"  id="submitform" name="submitform">
                                     <div class="row g-3">
                                         <div class="col-sm-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control border-0" id="name" placeholder="Your Name">
+                                                <input type="text" class="form-control border-0" id="name" name="name" placeholder="Your Name">
                                                 <label for="name">Your Name</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-floating">
-                                                <input type="email" class="form-control border-0" id="email" placeholder="Your Email">
+                                                <input type="email" class="form-control border-0" id="email" name="email" placeholder="Your Email">
                                                 <label for="email">Your Email</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control border-0" id="subject" placeholder="Subject">
+                                                <input type="text" class="form-control border-0" id="subject" name="subject" placeholder="Subject">
                                                 <label for="subject">Subject</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating">
-                                                <textarea class="form-control border-0" placeholder="Leave a message here" id="message" style="height: 100px"></textarea>
+                                                <textarea class="form-control border-0" placeholder="Leave a message here" id="message" name="message" style="height: 100px"></textarea>
                                                 <label for="message">Message</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                                            <button class="btn btn-primary w-100 py-3" name="submitform" type="submit">Send Message</button>
                                         </div>
                                     </div>
                                 </form>
