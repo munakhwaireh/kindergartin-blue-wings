@@ -90,9 +90,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } catch (\Exception $e) {
             }
 
-            // Store the token in the database along with the user's email and a timestamp
-            $updateToken = "UPDATE parent SET reset_token = '$token', reset_timestamp = NOW() WHERE Email = '$email'";
-            mysqli_query($conn, $updateToken);
+//            // Store the token in the database along with the user's email and a timestamp
+//            $updateToken = "UPDATE parent SET reset_token = '$token', reset_timestamp = NOW() WHERE Email = '$email'";
+//            mysqli_query($conn, $updateToken);
 
             // Send an email with a link to the password reset page
             $resetLink = "https://localhost/kinderdarten-blue-wings/signup.php?email=$email&token=$token";
