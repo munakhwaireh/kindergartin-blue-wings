@@ -1,3 +1,28 @@
+<?php
+
+global $conn;
+include('connect.php'); // Include your database connection file
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get the ID and update the status based on the action
+    $id = $_POST['ID'];
+    $action = $_POST['action'];
+
+    $status = ($action === 'accept') ? '1' : '0';
+
+    $sql = "UPDATE feedbacks SET puplish = '$status' WHERE ID = $id";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Status updated successfully";
+    } else {
+        echo "Error updating status: " . $conn->error;
+    }
+
+    $conn->close();
+    exit; // Stop further execution
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,8 +59,8 @@
 
 
     <!-- Template Stylesheet -->
-
     <link href="css/style.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 
@@ -53,7 +78,7 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
-        <a href="Boss_Profile.html" class="navbar-brand">
+        <a href="feedbacks.php" class="navbar-brand">
             <h1 class="m-0 text-primary"><i class="fas fa-school m-3"></i>Blue Wings Kindergarten </h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -62,8 +87,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto">
 
-                <a href="Boss_Profile.html" class="nav-item nav-link active">Profile</a>
-                <!--                <a href="teach_table.php" class="nav-item nav-link ">Tables</a>-->
+                <a href="Boss_Profile.html" class="nav-item nav-link ">Profile</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tables</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom border-0 shadow-sm m-0">
@@ -73,7 +97,7 @@
 
                 </div>
                 <a href="appointments-acceptance.php" class="nav-item nav-link ">Appointments</a>
-                <a href="feedbacks.php" class="nav-item nav-link ">Feedbacks</a>
+                <a href="feedbacks.php" class="nav-item nav-link active">Feedbacks</a>
 
             </div>
         </div>
@@ -82,46 +106,84 @@
     </nav>
     <!-- Navbar End -->
 
+    <!-- Content Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+
+            <h2 class="mb-4">Clients feedbacks</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>name</th>
+                    <th>puplish</th>
+                    <th>Email</th>
+                    <th>subject</th>
+                    <th>Message</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Use PHP or other server-side language to fetch and display data from the database -->
+                <?php
+                global $conn;
+                include('connect.php');
+
+
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                $sql = "SELECT * FROM feedbacks";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row["ID"] . "</td>";
+                        echo "<td>" . $row["name"] . "</td>";
+                        echo "<td>" . $row["puplish"] . "</td>";
+                        echo "<td>" . $row["email"] . "</td>";
+                        echo "<td>" . $row["subject"] . "</td>";
+                        echo "<td>" . $row["message"] . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='11'>No feedbacks found</td></tr>";
+                }
+
+                $conn->close();
+                ?>
+
+
+                </tbody>
+            </table>
+            <!-- Buttons -->
+            <div class="mt-4">
+
+                <button type="button" class="btn btn-danger me-2" onclick="showForm2()">update</button>
+                <!-- forms -->
+                <br><br>
+
+                <form id="getStartedForm2" style="display: none;">
+                    <div class="mb-3">
+                        <label for="ID" class="form-label">ID</label>
+                        <input type="text" class="form-control" name="ID" id="ID" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="submitForm2('accept')">accept</button>
+                    <button type="button" class="btn btn-primary" onclick="submitForm2('deny')">deny</button>
+
+                </form>
 
 
 
-    <div class="card" data-state="#about">
-        <div class="card-header">
-            <div class="card-cover" style="background-image: url('https://images.unsplash.com/photo-1549068106-b024baf5062d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80')"></div>
-            <img class="card-avatar" src="imgg/2.png" alt="avatar" />
-            <h1 class="card-fullname">Wafaa Jawad</h1>
-        </div>
-        <div class="card-section, is-active" id="contact">
-            <div class="card-content">
-                <div class="card-subtitle">CONTACT</div>
-                <div class="card-contact-wrapper">
-                    <div class="card-contact">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                            <circle cx="12" cy="10" r="3" /></svg>
-                        Nablus-Rafedia
-                    </div>
-                    <div class="card-contact">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg>0592516238
-                    </div>
-                    <div class="card-contact">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                            <path d="M22 6l-10 7L2 6" /></svg>
-                        WafaaJawad@example.com
-                    </div>
-                    <button id="editContactBtn" class="contact-me">Edit my contact data</button>
-                </div>
+
             </div>
+
         </div>
     </div>
-
-
-
-    <script src="script.js"></script>
-
-
+    <!-- Content End -->
 
 
 
@@ -228,5 +290,39 @@
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
+
+<script>
+
+
+    function showForm2() {
+        document.getElementById("getStartedForm2").style.display = "block";
+    }
+
+
+    function submitForm2(action) {
+        var id = $("#ID").val();
+
+
+        $.ajax({
+            type: "POST",
+            url: "feedbacks.php",
+            data: { ID: id, action: action },
+            success: function (response) {
+                // Handle the response, e.g., show a success message
+                response="it will puplished in few minutes";
+                alert(response);
+                document.getElementById("getStartedForm2").style.display = "none";
+            },
+            error: function (error) {
+                // Handle errors, e.g., show an error message
+                alert("Error updating status: " + error.responseText);
+            }
+        });
+    }
+</script>
+
+
+</script>
+
 </body>
 </html>

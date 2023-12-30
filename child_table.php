@@ -148,15 +148,16 @@ $conn->close();
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tables</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom border-0 shadow-sm m-0">
                         <a href="teach_table.php" class="dropdown-item">Teachers</a>
-                        <a href="child_table.html" class="dropdown-item">Children</a>
+                        <a href="child_table.php" class="dropdown-item">Children</a>
                     </div>
 
                 </div>
                 <a href="appointments-acceptance.php" class="nav-item nav-link ">Appointments</a>
+                <a href="feedbacks.php" class="nav-item nav-link ">Feedbacks</a>
 
             </div>
         </div>
-        <a href="index.html" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
+        <a href="index.php" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
 
     </nav>
     <!-- Navbar End -->
@@ -386,7 +387,7 @@ $conn->close();
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
-                            <a href="index.html">Home</a>
+                            <a href="index.php">Home</a>
                             <a href="about.html">about</a>
                             <a href="contact.html">contact</a>
                         </div>

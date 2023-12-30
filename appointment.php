@@ -1,3 +1,39 @@
+<?php
+global $conn;
+include('connect.php');
+session_start();
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['submitform'])) {
+        // Get form data
+        $gname = $_POST['gname'];
+        $gmail = $_POST['gmail'];
+        $cname = $_POST['cname'];
+        $cage = $_POST['cage'];
+        $message = $_POST['message'];
+        $date = $_POST['date'];
+
+        // Validate and sanitize your data if needed
+
+        // Insert into the appointments table without specifying ID
+        $sql = "INSERT INTO appointments (`guardian-name`, Date, email, `child-name`, `child-age`, acceptdeny, message) 
+                VALUES ('$gname','$date', '$gmail', '$cname', '$cage', '','$message')";
+
+        if ($conn->query($sql) === TRUE) {
+            $last_inserted_id = $conn->insert_id;
+            echo "Appointment added successfully. ID: $last_inserted_id";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+}
+?>
+<!-- The rest of your HTML remains unchanged -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +80,7 @@
 
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
-            <a href="index.html" class="navbar-brand">
+            <a href="index.php" class="navbar-brand">
                 <h1 class="m-0 text-primary"><i class="fas fa-school m-3"></i>Blue Wings Kindergarten</h1>
             </a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -52,7 +88,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="index.html" class="nav-item nav-link">Home</a>
+                    <a href="index.php" class="nav-item nav-link">Home</a>
                     <a href="about.html" class="nav-item nav-link">About Us</a>
                     <a href="classes.html" class="nav-item nav-link">Classes</a>
                     <div class="nav-item dropdown">
@@ -62,7 +98,7 @@
                             <a href="team.html" class="dropdown-item">Popular Teachers</a>
                             <a href="call-to-action.html" class="dropdown-item">Become A Teachers</a>
                             <a href="appointment.html" class="dropdown-item active">Make Appointment</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                            <a href="testimonial.php" class="dropdown-item">Testimonial</a>
                         </div>
                     </div>
                     <a href="contact.html" class="nav-item nav-link">Contact Us</a>
@@ -97,40 +133,46 @@
                         <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
                             <div class="h-100 d-flex flex-column justify-content-center p-5">
                                 <h1 class="mb-4">Make Appointment</h1>
-                                <form>
+                                <form name="submitform" method="post">
                                     <div class="row g-3">
                                         <div class="col-sm-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control border-0" id="gname" placeholder="Gurdian Name">
+                                                <input type="text" class="form-control border-0"  name="gname" id="gname" placeholder="Gurdian Name">
                                                 <label for="gname">Gurdian Name</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-floating">
-                                                <input type="email" class="form-control border-0" id="gmail" placeholder="Gurdian Email">
+                                                <input type="email" class="form-control border-0" name="gmail" id="gmail" placeholder="Gurdian Email">
                                                 <label for="gmail">Gurdian Email</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control border-0" id="cname" placeholder="Child Name">
+                                                <input type="date" class="form-control border-0" name="date" id="date" placeholder="Today date">
+                                                <label for="date">date</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control border-0"  name="cname" id="cname" placeholder="Child Name">
                                                 <label for="cname">Child Name</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control border-0" id="cage" placeholder="Child Age">
+                                                <input type="text" class="form-control border-0" name="cage" id="cage" placeholder="Child Age">
                                                 <label for="cage">Child Age</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating">
-                                                <textarea class="form-control border-0" placeholder="Leave a message here" id="message" style="height: 100px"></textarea>
+                                                <textarea class="form-control border-0" placeholder="Leave a message here" name="message" id="message" style="height: 100px"></textarea>
                                                 <label for="message">Message</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100 py-3" type="submit">Submit</button>
+                                            <button class="btn btn-primary w-100 py-3" name="submitform" id="submitform" type="submit">Submit</button>
                                         </div>
                                     </div>
                                 </form>
@@ -216,7 +258,7 @@
                         </div>
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">
-                                <a href="index.html">Home</a>
+                                <a href="index.php">Home</a>
                                 <a href="about.html">about</a>
                                 <a href="contact.html">contact</a>
                             </div>

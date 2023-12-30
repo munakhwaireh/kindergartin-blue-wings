@@ -1,3 +1,27 @@
+<?php
+global $conn;
+include('connect.php');
+
+// Check connection
+if ($conn->connect_error) {
+die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT `name`, `message` FROM `feedbacks` WHERE `puplish` = '1'";
+$result = $conn->query($sql);
+
+$testimonials = [];
+if ($result->num_rows > 0) {
+while ($row = $result->fetch_assoc()) {
+$testimonials[] = [
+'name' => $row['name'],
+'message' => $row['message'],
+];
+}
+}
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,8 +86,8 @@
                             <a href="facility.html" class="dropdown-item">School Facilities</a>
                             <a href="team.html" class="dropdown-item">Popular services</a>
                             <a href="call-to-action.html" class="dropdown-item">Become A Teachers</a>
-                            <a href="appointment.html" class="dropdown-item">Make Appointment</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                            <a href="appointment.php" class="dropdown-item">Make Appointment</a>
+                            <a href="testimonial.php" class="dropdown-item">Testimonial</a>
                         </div>
                     </div>
                     <a href="contact.html" class="nav-item nav-link">Contact Us</a>
@@ -542,7 +566,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100 py-3" type="submit">Submit</button>
+                                            <a class="btn btn-primary py-3 px-5" href="appointment.php" >Submit</a>
                                         </div>
                                     </div>
                                 </form>
@@ -616,51 +640,32 @@
         <!-- services End -->
 
 
+
         <!-- Testimonial Start -->
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                     <h1 class="mb-3">Our Clients Say!</h1>
-                    <p> we believe that your experiences are the heartbeat of our journey. Your thoughts, feelings, and feedback matter immensely as they guide us on our quest for continuous improvement. In this dedicated space, we're excited to share the valuable insights and stories our cherished clients have graciously offered. </p>
+                    <p>We believe that your experiences are the heartbeat of our journey. Your thoughts, feelings, and feedback matter immensely as they guide us on our quest for continuous improvement. In this dedicated space, we're excited to share the valuable insights and stories our cherished clients have graciously offered.</p>
                 </div>
                 <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+                    <?php foreach ($testimonials as $testimonial) : ?>
                     <div class="testimonial-item bg-light rounded p-5">
-                        <p class="fs-5">"We often catch ourselves saying, 'I wish they had this when we were kids.'Blue Wings is shaping our child's early years in the best possible way, and we couldn't be happier."</p>
+                        <p class="fs-5"><?= $testimonial['message'] ?></p>
                         <div class="d-flex align-items-center bg-white me-n5" style="border-radius: 50px 0 0 50px;">
-                            <img class="img-fluid flex-shrink-0 rounded-circle" src="img/suha.png" style="width: 90px; height: 90px;">
+                            <!-- You can add an image here if available -->
                             <div class="ps-3">
-                                <h3 class="mb-1">Suha hasan</h3>
-                                <span>Profession</span>
+                                <h3 class="mb-1"><?= $testimonial['name'] ?></h3>
                             </div>
                             <i class="fa fa-quote-right fa-3x text-primary ms-auto d-none d-sm-flex"></i>
                         </div>
                     </div>
-                    <div class="testimonial-item bg-light rounded p-5">
-                        <p class="fs-5">"Every morning drop-off feels like dropping our kiddo at a place where they'll not just learn but genuinely enjoy every moment.Blue Wings has made us true believers in joyful education."</p>
-                        <div class="d-flex align-items-center bg-white me-n5" style="border-radius: 50px 0 0 50px;">
-                            <img class="img-fluid flex-shrink-0 rounded-circle" src="img/img_1.png" style="width: 90px; height: 90px;">
-                            <div class="ps-3">
-                                <h3 class="mb-1">yaman asma</h3>
-                                <span>dentist</span>
-                            </div>
-                            <i class="fa fa-quote-right fa-3x text-primary ms-auto d-none d-sm-flex"></i>
-                        </div>
-                    </div>
-                    <div class="testimonial-item bg-light rounded p-5">
-                        <p class="fs-5">"Choosing Blue Wings kindergarten was like finding a hidden gem. Our child is thriving, and the updates we get about their day make us feel so connected to their little world."</p>
-                        <div class="d-flex align-items-center bg-white me-n5" style="border-radius: 50px 0 0 50px;">
-                            <img class="img-fluid flex-shrink-0 rounded-circle" src="img/img_3.png" style="width: 90px; height: 90px;" alt="img">
-                            <div class="ps-3">
-                                <h3 class="mb-1">Saied jalal</h3>
-                                <span>Doctor</span>
-                            </div>
-                            <i class="fa fa-quote-right fa-3x text-primary ms-auto d-none d-sm-flex"></i>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
         <!-- Testimonial End -->
+
 
 
         <!-- Footer Start -->

@@ -148,7 +148,7 @@ if (isset($_SESSION['user_id'])) {
                 <a href="library_parents.html" class="nav-item nav-link ">library</a>
 
             </div>
-            <a href="index.html" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="index.php" class="btn btn-primary rounded-pill px-3 d-none d-lg-block">Log out<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -291,7 +291,7 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
-                            <a href="index.html">Home</a>
+                            <a href="index.php">Home</a>
                             <a href="about.html">about</a>
                             <a href="contact.html">contact</a>
                         </div>

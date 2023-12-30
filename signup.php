@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             echo "Login failed";
             $error[] = 'Incorrect email or password!';
-            header('location:index.html');
+            header('location:index.php');
         }
     }
 }
